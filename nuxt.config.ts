@@ -1,5 +1,16 @@
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1', 
+      title: 'Collabro',
+      meta: [
+        { name: 'description', content: 'Collabro' }
+      ],
+      link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
+    },
+  },
   runtimeConfig: {
     // Keys within public, will be also exposed to the client-side
     app: {
