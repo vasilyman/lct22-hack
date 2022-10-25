@@ -11,7 +11,7 @@
 </template>
 <script lang="ts" setup>
 const props = defineProps({
-  src: { type: String, default: 'https://placeimg.com/180/180/animals' },
+  src: { type: String, default: '/img/animals.jpeg' },
   alt: { type: String, default: '' },
   small: { type: Boolean },
 });

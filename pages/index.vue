@@ -43,7 +43,7 @@ const cadrs: TIdeaCard[] = Array(8).fill({})
     description: 'Короткое описание идеи, идея состоит из разных слов, букв, цифр и это прекрасно я считаю! Бла бла бла бла Бла бла бла бла бла бла...',
     author: {
       name: 'Екатерина Л.',
-      photo: 'https://placeimg.com/180/180/animals',
+      photo: '/img/animals.jpeg',
       url: '#',
     },
     likes: 99,
