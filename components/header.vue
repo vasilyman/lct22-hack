@@ -15,6 +15,6 @@ const router = useRouter();
 
 
 const onLogin = () => {
-  router.push({ name: 'login' });
+  router.push('/login');
 };
 </script>
