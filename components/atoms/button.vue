@@ -2,8 +2,8 @@
   <button
     class="bg-primary text-white"
     :class="{
-      'p-4 rounded-xl': props.large,
-      'p-3 rounded-lg': !props.large
+      'lg:p-4 p-3 rounded-xl': props.large,
+      'lg:p-3 p-2 rounded-lg': !props.large
     }"
   >
     <slot />

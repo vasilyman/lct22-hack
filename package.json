@@ -13,6 +13,8 @@
     "nuxt": "3.0.0-rc.12"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.4.3"
+    "@pinia/nuxt": "^0.4.3",
+    "@types/hammerjs": "^2.0.41",
+    "hammerjs": "^2.0.8"
   }
 }

@@ -4,7 +4,7 @@
       title="Это может быть интересно"
       right-action="Посмотреть все"
       :items="items"
-      @next="onNext"
+      @all="onAll"
     >
       <template #default="{ item }">
         <div
@@ -29,10 +29,10 @@
 import TSlideItem from '@/types/TSlideItem';
 import TIdeaCard from '@/types/TIdeaCard';
 
-const items: TSlideItem[] = Array(10).fill({}).map((i, ii) => ({ title: 'title', id: ii.toString() }));
+const items: TSlideItem[] = Array(10).fill({}).map((i, ii) => ({ title: 'title' + ii, id: ii.toString() }));
 
-const onNext = () => {
-  console.log('next');
+const onAll = () => {
+  console.log('all');
   
 };
 
