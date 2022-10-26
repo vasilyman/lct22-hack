@@ -1,0 +1,7 @@
+{
+  "code": "string",
+  "name": "string",
+  "authorId": "string",
+  "createdAt": "YYYY-MM-DDTHH:MM:SS+00:00",
+  "updatedAt": "YYYY-MM-DDTHH:MM:SS+00:00"
+}

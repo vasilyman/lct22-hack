@@ -1,0 +1,22 @@
+{
+  "groupAttributeCode1": {
+    "attributeCode1": {
+      "name": "string",
+      "type": "string"
+    },
+    "attributeCode2": {
+      "name": "string",
+      "type": "string"
+    }
+  },
+  "groupAttributeCode2": {
+    "attributeCode4": {
+      "name": "string",
+      "type": "string"
+    },
+    "attributeCode6": {
+      "name": "string",
+      "type": "string"
+    }
+  }
+}

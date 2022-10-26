@@ -1,0 +1,9 @@
+{
+  "id": "UUID",
+  "email": "string",
+  "firstname": "string",
+  "lastname": "string",
+  "birthday": "YYYY-MM-DD",
+  "createdAt": "YYYY-MM-DDTHH:MM:SS+00:00",
+  "updatedAt": "YYYY-MM-DDTHH:MM:SS+00:00"
+}

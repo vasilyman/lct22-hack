@@ -1,0 +1,23 @@
+[
+  {
+    "code": "string",
+    "name": "string",
+    "authorId": "string",
+    "createdAt": "YYYY-MM-DDTHH:MM:SS+00:00",
+    "updatedAt": "YYYY-MM-DDTHH:MM:SS+00:00",
+    "projectAttributeValues": {
+      "title": "string",
+      "description": "string",
+      "startDate": "YYYY-MM-DD",
+      "endDate": "YYYY-MM-DD"
+    },
+    "projectLikes": 90,
+    "projectCommetns": 20,
+    "projectTags": [
+      {
+        "tagCode": "string",
+        "tagName": "string"
+      }
+    ]
+  }
+]

@@ -17,7 +17,7 @@
         title="Фильтр"
       />
     </div>
-    <div class="grid grid-cols-4 gap-3">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
       <IdeaCard
         v-for="card in cadrs" :key="card.id"
         :idea="card"
