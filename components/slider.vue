@@ -50,8 +50,8 @@ const props = defineProps({
   items: { type: Object as PropType<TSlideItem[]>, required: true },
 });
 
-const container = ref(null);
-const slide = ref(null);
+const container = ref<HTMLElement | null>(null);
+const slide = ref<HTMLElement | null>(null);
 
 const scrollHandler = (e: Event | HammerInput) => {
   if (e instanceof Event) e.preventDefault();
