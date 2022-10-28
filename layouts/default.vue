@@ -1,9 +1,9 @@
 <template>
-  <div class="text-gray3 dark:text-white dark:bg-gray3" data-mode="dark">
+  <div class="text-gray3 dark:text-white dark:bg-grayDark min-h-screen flex flex-col" data-mode="dark">
     <div class="py-3 px-3 lg:py-10 lg:px-20 ">
       <Header v-model:dark="dark" />
     </div>
-    <NuxtPage class="py-3 px-3 lg:py-10 lg:px-20 " />
+    <NuxtPage class="py-3 px-3 lg:py-10 lg:px-20" />
     <!-- <Footer /> -->
   </div>
 </template>

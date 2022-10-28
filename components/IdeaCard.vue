@@ -1,28 +1,42 @@
 <template>
-  <div class="bg-gradient-blue rounded-lg shadow-sm p-4">
+  <div class="bg-gradient-blue dark:bg-grayDarkContent dark:bg-none rounded-lg shadow-sm p-4">
     <div class="mb-3"><strong>{{ idea.title }}</strong></div>
     <div class="text-sm mb-4">{{ idea.description }}</div>
-    <div class="text-xs mb-4">
-      <div class="mb-1">Автор</div>
-      <div class="flex items-center">
-        <AtomsAvatar
-          :src="idea.author.photo"
-          small
-          class="mr-2"
-        />
-        <div>{{ idea.author.name }}</div>
+    <div class="text-xs mb-4 flex flex-row justify-between">
+      <div class="basis-1/2">
+        <div class="mb-1">Автор</div>
+        <div class="flex items-center">
+          <AtomsAvatar
+            :src="idea.author.photo"
+            small
+            class="mr-2"
+          />
+          <div>{{ idea.author.name }}</div>
+        </div>
       </div>
-      
+      <div class="gap-1 basis-1/2 flex flex-wrap justify-end items-start">
+        <AtomsChip
+          v-for="tag in idea.tags"
+          :key="tag.codeId"
+          :color="tag.color"
+        >
+          {{ tag.title }}
+        </AtomsChip>
+      </div>
     </div>
     <div class="flex text-xs">
-      <div class="text-gray2">Люди реагируют на это!</div>
+      <div class="text-gray2">Создана: {{ createdAt }}</div>
       <div class="flex-1"></div>
+      <div v-if="idea.hasGrant" class="flex items-center mr-2">
+        <i class="far fa-check-circle text-success mr-1"></i>
+        <span class="text-gray2">Получен грант</span>
+      </div>
       <div class="flex items-center mr-2">
-        <i class="fas fa-heart text-red mr-1"></i>
+        <i class="fas fa-heart text-danger mr-1"></i>
         <span class="text-gray2">{{ idea.likes }}</span>
       </div>
       <div class="flex items-center">
-        <i class="fas fa-comments text-red mr-1"></i>
+        <i class="fas fa-comments text-danger mr-1"></i>
         <span class="text-gray2">{{ idea.comments }}</span>
       </div>
     </div>
@@ -37,4 +51,11 @@ const props = defineProps({
 });
 
 const idea = props.idea;
+
+let createdAt: string;
+try {
+  createdAt = new Intl.DateTimeFormat('ru-RU').format(new Date(idea.createdAt));
+} catch (error) {
+  console.log(error);
+}
 </script>

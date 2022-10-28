@@ -8,8 +8,20 @@
     >
       <template #default="{ item }">
         <div
-          class="h-32 w-48 bg-white"
-        >{{ item.title }}</div>
+          class="h-40 w-48 flex flex-col" 
+        >
+          <div
+            v-if="item.image"
+            class="flex-1 overflow-hidden mb-3"
+          >
+            <img
+              :src="item.image"
+              :alt="item.title"
+              class="object-cover h-full w-full"
+            >
+          </div>
+          <div class="text-xs">{{ item.title }}</div>
+        </div>
       </template>
     </Slider>
     <div class="my-7">
@@ -29,7 +41,7 @@
 import TSlideItem from '@/types/TSlideItem';
 import TIdeaCard from '@/types/TIdeaCard';
 
-const items: TSlideItem[] = Array(10).fill({}).map((i, ii) => ({ title: 'title' + ii, id: ii.toString() }));
+const items: TSlideItem[] = Array(10).fill({}).map((i, ii) => ({ title: 'Категория ' + (ii + 1), id: ii.toString(), image: 'https://placeimg.com/180/100/animals' }));
 
 const onAll = () => {
   console.log('all');
@@ -48,6 +60,55 @@ const cadrs: TIdeaCard[] = Array(8).fill({})
     },
     likes: 99,
     comments: 89,
+    hasGrant: Math.random() > 0.5,
+    createdAt: '2022-11-10T12:23',
+    tags: [
+      {
+        codeId: 'html',
+        title: 'HTML',
+        color: 'primary',
+      },
+      {
+        codeId: 'java',
+        title: 'Java',
+        color: 'success'
+      },
+      {
+        codeId: 'figma',
+        title: 'Figma',
+        color: 'warning'
+      },
+      {
+        codeId: 'html',
+        title: 'HTML',
+        color: 'white',
+      },
+      {
+        codeId: 'java',
+        title: 'Java',
+        color: 'danger'
+      },
+      {
+        codeId: 'figma',
+        title: 'Figma',
+        color: 'warning'
+      },
+      {
+        codeId: 'html',
+        title: 'HTML',
+        color: 'white',
+      },
+      {
+        codeId: 'java',
+        title: 'Java',
+        color: 'info'
+      },
+      {
+        codeId: 'figma',
+        title: 'Figma',
+        color: 'warning'
+      },
+    ].slice(0, Math.ceil(Math.random() * 5 + 3))
   }));
 
 </script>

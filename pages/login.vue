@@ -3,6 +3,13 @@
     <div class="shadow-xl px-6 w-96 max-w-full rounded-xl border-gray border">
       <div class="">
         <img
+          v-if="dark"
+          class="my-10 mx-auto"
+          src="@/assets/img/logo_dark.png"
+          alt=""
+        >
+        <img
+          v-else
           class="my-10 mx-auto"
           src="@/assets/img/logo.png"
           alt=""
@@ -35,6 +42,11 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { useAppStore } from '@/stores/app';
+
+const appStore = useAppStore();
+const dark = computed(() => appStore.dark);
+
 const email = ref('');
 const password = ref('');
 

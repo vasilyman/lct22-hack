@@ -1,3 +1,5 @@
+import { TThemeColor } from "./TThemeColor";
+
 export default interface TIdeaCard {
   id: string,
   title: string,
@@ -8,5 +10,12 @@ export default interface TIdeaCard {
     url: string,
   },
   comments: number,
-  likes: number
+  likes: number,
+  hasGrant: boolean,
+  tags?: {
+    codeId: string,
+    title?: string,
+    color?: TThemeColor,
+  }[],
+  createdAt: string,
 }

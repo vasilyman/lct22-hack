@@ -4,7 +4,11 @@
 
 @layer base {
   :root {
-    --color-primary: #8257FC;
+    --color-primary: 130 87 252;
+    --color-success: 39 212 35;
+    --color-warning: 245 144 50;
+    --color-info: 113 187 255;
+    --color-danger: 255 113 113;
     /* --color-secondary: 111 114 185; */
   }
 }

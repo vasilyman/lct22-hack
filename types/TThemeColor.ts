@@ -1,0 +1,1 @@
+export type TThemeColor = 'white' | 'primary' | 'success' | 'warning' | 'info' | 'danger';

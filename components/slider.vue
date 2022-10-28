@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-coloured py-6 px-7 rounded-lg shadow-lg">
+  <div class="bg-coloured dark:bg-grayDarkContent dark:bg-none py-6 px-7 rounded-lg shadow-lg">
     <div
       v-if="props.title || props.rightAction"
       class="flex justify-between items-center mb-6"
@@ -16,7 +16,7 @@
           <div
             v-for="item in props.items"
             ref="slide"
-            class="mr-3"
+            class="mr-4"
           >
             <slot :item="item" />
           </div>
@@ -26,7 +26,7 @@
         class="flex items-center px-3"
       >
         <button
-          class="h-10 w-10 rounded-full bg-gray flex items-center justify-center"
+          class="h-10 w-10 rounded-full bg-gray dark:text-gray3 flex items-center justify-center"
           @click="onNext"
         >
           <i class="fas fa-arrow-right"></i>
@@ -51,7 +51,7 @@ const props = defineProps({
 });
 
 const container = ref<HTMLElement | null>(null);
-const slide = ref<HTMLElement | null>(null);
+const slide = ref<HTMLElement[] | null>(null);
 
 const scrollHandler = (e: Event | HammerInput) => {
   if (e instanceof Event) e.preventDefault();

@@ -2,7 +2,7 @@
   <div>
     <input
       v-model="localValue"
-      class="border border-gray rounded-lg h-12 w-full p-3"
+      class="border border-gray rounded-lg h-12 w-full p-3 bg-white/0 outline-none"
       :type="type ?? 'text'"
       :placeholder="props.placeholder"
       @input="onInput"
