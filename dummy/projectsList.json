@@ -1,22 +1,418 @@
 [
   {
-    "code": "string",
-    "name": "string",
-    "authorId": "string",
-    "createdAt": "YYYY-MM-DDTHH:MM:SS+00:00",
-    "updatedAt": "YYYY-MM-DDTHH:MM:SS+00:00",
-    "projectAttributeValues": {
-      "title": "string",
-      "description": "string",
-      "startDate": "YYYY-MM-DD",
-      "endDate": "YYYY-MM-DD"
+    "codeId": "0",
+    "title": "Очень длиннннннннннное название, возможно в три строки",
+    "description": "Короткое описание идеи, идея состоит из разных слов, букв, цифр и это прекрасно я считаю! Бла бла бла бла Бла бла бла бла бла бла...",
+    "author": {
+      "name": "Екатерина Л.",
+      "photo": "/img/animals.jpeg",
+      "url": "#"
     },
-    "projectLikes": 90,
-    "projectCommetns": 20,
-    "projectTags": [
+    "likes": 99,
+    "comments": 89,
+    "hasGrant": false,
+    "createdAt": "2022-11-10T12:23",
+    "imageUrl": "https://placeimg.com/180/180/animals",
+    "command": [
       {
-        "tagCode": "string",
-        "tagName": "string"
+        "value": "user1",
+        "title": "Name Family",
+        "url": "https://placeimg.com/180/180/people"
+      },
+      {
+        "value": "user2",
+        "title": "Name Famil2",
+        "url": "https://placeimg.com/180/180/people"
+      },
+      {
+        "value": "user3",
+        "title": "Name Family3",
+        "url": "https://placeimg.com/180/180/people"
+      }
+    ],
+    "documents": [
+      {
+        "codeId": "one",
+        "type": "pdf",
+        "title": "Свидетельство о регистрации в качестве индивидуального предпринимателя",
+        "size": "24 кБ",
+        "url": "#"
+      },
+      {
+        "codeId": "two",
+        "type": "pdf",
+        "title": "Бизнес план",
+        "size": "24 кБ",
+        "url": "#"
+      }
+    ],
+    "tags": [
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "primary"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "success"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "danger"
+      }
+    ]
+  },
+  {
+    "codeId": "1",
+    "title": "Очень длиннннннннннное название, возможно в три строки",
+    "description": "Короткое описание идеи, идея состоит из разных слов, букв, цифр и это прекрасно я считаю! Бла бла бла бла Бла бла бла бла бла бла...",
+    "author": {
+      "name": "Екатерина Л.",
+      "photo": "/img/animals.jpeg",
+      "url": "#"
+    },
+    "likes": 99,
+    "comments": 89,
+    "hasGrant": true,
+    "createdAt": "2022-11-10T12:23",
+    "tags": [
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "primary"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "success"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "danger"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      }
+    ]
+  },
+  {
+    "codeId": "2",
+    "title": "Очень длиннннннннннное название, возможно в три строки",
+    "description": "Короткое описание идеи, идея состоит из разных слов, букв, цифр и это прекрасно я считаю! Бла бла бла бла Бла бла бла бла бла бла...",
+    "author": {
+      "name": "Екатерина Л.",
+      "photo": "/img/animals.jpeg",
+      "url": "#"
+    },
+    "likes": 99,
+    "comments": 89,
+    "hasGrant": false,
+    "createdAt": "2022-11-10T12:23",
+    "tags": [
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "primary"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "success"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "danger"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      }
+    ]
+  },
+  {
+    "codeId": "3",
+    "title": "Очень длиннннннннннное название, возможно в три строки",
+    "description": "Короткое описание идеи, идея состоит из разных слов, букв, цифр и это прекрасно я считаю! Бла бла бла бла Бла бла бла бла бла бла...",
+    "author": {
+      "name": "Екатерина Л.",
+      "photo": "/img/animals.jpeg",
+      "url": "#"
+    },
+    "likes": 99,
+    "comments": 89,
+    "hasGrant": true,
+    "createdAt": "2022-11-10T12:23",
+    "tags": [
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "primary"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "success"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "danger"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "info"
+      }
+    ]
+  },
+  {
+    "codeId": "4",
+    "title": "Очень длиннннннннннное название, возможно в три строки",
+    "description": "Короткое описание идеи, идея состоит из разных слов, букв, цифр и это прекрасно я считаю! Бла бла бла бла Бла бла бла бла бла бла...",
+    "author": {
+      "name": "Екатерина Л.",
+      "photo": "/img/animals.jpeg",
+      "url": "#"
+    },
+    "likes": 99,
+    "comments": 89,
+    "hasGrant": true,
+    "createdAt": "2022-11-10T12:23",
+    "tags": [
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "primary"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "success"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "danger"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      }
+    ]
+  },
+  {
+    "codeId": "5",
+    "title": "Очень длиннннннннннное название, возможно в три строки",
+    "description": "Короткое описание идеи, идея состоит из разных слов, букв, цифр и это прекрасно я считаю! Бла бла бла бла Бла бла бла бла бла бла...",
+    "author": {
+      "name": "Екатерина Л.",
+      "photo": "/img/animals.jpeg",
+      "url": "#"
+    },
+    "likes": 99,
+    "comments": 89,
+    "hasGrant": false,
+    "createdAt": "2022-11-10T12:23",
+    "tags": [
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "primary"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "success"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "danger"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      }
+    ]
+  },
+  {
+    "codeId": "6",
+    "title": "Очень длиннннннннннное название, возможно в три строки",
+    "description": "Короткое описание идеи, идея состоит из разных слов, букв, цифр и это прекрасно я считаю! Бла бла бла бла Бла бла бла бла бла бла...",
+    "author": {
+      "name": "Екатерина Л.",
+      "photo": "/img/animals.jpeg",
+      "url": "#"
+    },
+    "likes": 99,
+    "comments": 89,
+    "hasGrant": false,
+    "createdAt": "2022-11-10T12:23",
+    "tags": [
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "primary"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "success"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "danger"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      }
+    ]
+  },
+  {
+    "codeId": "7",
+    "title": "Очень длиннннннннннное название, возможно в три строки",
+    "description": "Короткое описание идеи, идея состоит из разных слов, букв, цифр и это прекрасно я считаю! Бла бла бла бла Бла бла бла бла бла бла...",
+    "author": {
+      "name": "Екатерина Л.",
+      "photo": "/img/animals.jpeg",
+      "url": "#"
+    },
+    "likes": 99,
+    "comments": 89,
+    "hasGrant": true,
+    "createdAt": "2022-11-10T12:23",
+    "tags": [
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "primary"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "success"
+      },
+      {
+        "codeId": "figma",
+        "title": "Figma",
+        "color": "warning"
+      },
+      {
+        "codeId": "html",
+        "title": "HTML",
+        "color": "white"
+      },
+      {
+        "codeId": "java",
+        "title": "Java",
+        "color": "danger"
       }
     ]
   }

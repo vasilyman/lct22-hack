@@ -1,7 +1,8 @@
+import TAvatarItem from "./TAvatarItem";
 import { TThemeColor } from "./TThemeColor";
 
 export default interface TIdeaCard {
-  id: string,
+  codeId: string,
   title: string,
   description: string,
   author: {
@@ -18,4 +19,13 @@ export default interface TIdeaCard {
     color?: TThemeColor,
   }[],
   createdAt: string,
+  command?: TAvatarItem[],
+  documents?: {
+    codeId: string,
+    type: string,
+    url: string,
+    title: string,
+    size: string,
+  }[],
+  imageUrl?: string,
 }

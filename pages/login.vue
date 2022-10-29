@@ -18,7 +18,7 @@
         <div class="overflow-hidden">
           <Transition name="slide-left" mode="out-in" >
             <AtomsInputText
-              v-if="form.email === ''"
+              v-if="credentials.email === ''"
               v-model="email"
               placeholder="@"
               class="mb-4"
@@ -36,13 +36,24 @@
           Дальше
         </AtomsButton>
       </div>
-      <div class="line mt-8"></div>
+      <AtomsLine />
       <div class="h-40"></div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { useAppStore } from '@/stores/app';
+import TLogin from '@/types/TLogin';
+import { useAuthStore } from '@/stores/auth';
+
+definePageMeta({
+  middleware: ["auth"]
+})
+
+const authStore = useAuthStore();
+
+const isAuthorized = computed(() => authStore.isAuthorised);
+const credentials = computed(() => authStore.credentials);
 
 const appStore = useAppStore();
 const dark = computed(() => appStore.dark);
@@ -50,18 +61,21 @@ const dark = computed(() => appStore.dark);
 const email = ref('');
 const password = ref('');
 
-const form = ref({
+const form = ref<TLogin>({
   email: '',
   password: '',
 });
 
+const router = useRouter();
+
 const onNext = () => {
   if (email.value !== '') {
-    if (password.value === '') {
-      form.value.email = email.value;
+    if (!password.value) {
+      authStore.credentials.email = email.value;
     } else {
-      form.value.password = password.value;
-      console.log(form.value);
+      authStore.credentials.password = password.value;
+      authStore.login();
+      router.push('/');
     }
   }
 }

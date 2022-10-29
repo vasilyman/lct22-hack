@@ -1,29 +1,30 @@
 <template>
   <div>
-    <Slider
-      title="Это может быть интересно"
-      right-action="Посмотреть все"
-      :items="items"
-      @all="onAll"
-    >
-      <template #default="{ item }">
-        <div
-          class="h-40 w-48 flex flex-col" 
-        >
-          <div
-            v-if="item.image"
-            class="flex-1 overflow-hidden mb-3"
-          >
-            <img
-              :src="item.image"
-              :alt="item.title"
-              class="object-cover h-full w-full"
-            >
-          </div>
-          <div class="text-xs">{{ item.title }}</div>
+    <div class="bg-coloured dark:bg-grayDarkContent dark:bg-none py-6 px-7 rounded-lg shadow-lg">
+      <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center mr-3">
+          <h3 class="font-bold mr-2">Это может быть интересно</h3>
+          <i class="far fa-circle-question text-xs text-gray2"></i>
         </div>
-      </template>
-    </Slider>
+        <div
+          class="text-gray text-sm text-right"
+          @click="onAll"
+        >
+          Посмотреть все
+        </div>
+      </div>
+      <Slider
+        :items="items"
+      >
+        <template #default="{ item }">
+          <IdeaCardSmall
+            :item="item"
+            class="cursor-pointer"
+            @click="onClickSliderItem(item)"
+          />
+        </template>
+      </Slider>
+    </div>
     <div class="my-7">
       <Filter
         title="Фильтр"
@@ -40,75 +41,24 @@
 <script setup lang="ts">
 import TSlideItem from '@/types/TSlideItem';
 import TIdeaCard from '@/types/TIdeaCard';
-
-const items: TSlideItem[] = Array(10).fill({}).map((i, ii) => ({ title: 'Категория ' + (ii + 1), id: ii.toString(), image: 'https://placeimg.com/180/100/animals' }));
+import { useIdeaStore } from '@/stores/idea';
 
 const onAll = () => {
   console.log('all');
-  
 };
 
-const cadrs: TIdeaCard[] = Array(8).fill({})
-  .map((i, ii) => ({
-    id: ii.toString(),
-    title: 'Очень длиннннннннннное название, возможно в три строки',
-    description: 'Короткое описание идеи, идея состоит из разных слов, букв, цифр и это прекрасно я считаю! Бла бла бла бла Бла бла бла бла бла бла...',
-    author: {
-      name: 'Екатерина Л.',
-      photo: '/img/animals.jpeg',
-      url: '#',
-    },
-    likes: 99,
-    comments: 89,
-    hasGrant: Math.random() > 0.5,
-    createdAt: '2022-11-10T12:23',
-    tags: [
-      {
-        codeId: 'html',
-        title: 'HTML',
-        color: 'primary',
-      },
-      {
-        codeId: 'java',
-        title: 'Java',
-        color: 'success'
-      },
-      {
-        codeId: 'figma',
-        title: 'Figma',
-        color: 'warning'
-      },
-      {
-        codeId: 'html',
-        title: 'HTML',
-        color: 'white',
-      },
-      {
-        codeId: 'java',
-        title: 'Java',
-        color: 'danger'
-      },
-      {
-        codeId: 'figma',
-        title: 'Figma',
-        color: 'warning'
-      },
-      {
-        codeId: 'html',
-        title: 'HTML',
-        color: 'white',
-      },
-      {
-        codeId: 'java',
-        title: 'Java',
-        color: 'info'
-      },
-      {
-        codeId: 'figma',
-        title: 'Figma',
-        color: 'warning'
-      },
-    ].slice(0, Math.ceil(Math.random() * 5 + 3))
-  }));
+const ideaStore = useIdeaStore();
 
+const cadrs: TIdeaCard[] = (await ideaStore.fetchIdeaList({})).items;
+
+const items: TSlideItem[] = (await ideaStore.fetchIdeaList({})).items.map((item) => ({
+  title: item.title,
+  id: item.codeId,
+  image: item.imageUrl,
+}));
+
+const router = useRouter();
+const onClickSliderItem = (item: TSlideItem) => {
+  router.push(`/project/${item.id}`);
+}
 </script>

@@ -1,6 +1,10 @@
 <template>
   <div class="bg-gradient-blue dark:bg-grayDarkContent dark:bg-none rounded-lg shadow-sm p-4">
-    <div class="mb-3"><strong>{{ idea.title }}</strong></div>
+    <div class="mb-3">
+      <nuxt-link :to="ideaLink">
+        <strong>{{ idea.title }}</strong>
+      </nuxt-link>
+    </div>
     <div class="text-sm mb-4">{{ idea.description }}</div>
     <div class="text-xs mb-4 flex flex-row justify-between">
       <div class="basis-1/2">
@@ -25,7 +29,10 @@
       </div>
     </div>
     <div class="flex text-xs">
-      <div class="text-gray2">Создана: {{ createdAt }}</div>
+      <div
+        class="text-gray2"
+        :title="createdAt"
+      >Создана {{ created }}</div>
       <div class="flex-1"></div>
       <div v-if="idea.hasGrant" class="flex items-center mr-2">
         <i class="far fa-check-circle text-success mr-1"></i>
@@ -46,6 +53,8 @@
 import TIdeaCard from '@/types/TIdeaCard';
 import { PropType } from 'vue';
 
+const { $dayjs } = useNuxtApp();
+
 const props = defineProps({
   idea: { type: Object as PropType<TIdeaCard>, default: '' },
 });
@@ -53,9 +62,13 @@ const props = defineProps({
 const idea = props.idea;
 
 let createdAt: string;
+let created: string;
 try {
-  createdAt = new Intl.DateTimeFormat('ru-RU').format(new Date(idea.createdAt));
+  created = $dayjs(idea.createdAt).toNow();
+  createdAt = $dayjs(idea.createdAt).format('DD MMM YYYY HH:MM:SS');
 } catch (error) {
   console.log(error);
 }
+
+const ideaLink: string = `/project/${idea.codeId}`;
 </script>

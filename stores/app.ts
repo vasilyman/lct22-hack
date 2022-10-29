@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
 
-interface Store {
+interface TAppStore {
   dark: boolean,
 }
 
-export const useAppStore = defineStore('context', {
-  state: (): Store => ({
+export const useAppStore = defineStore('app', {
+  state: (): TAppStore => ({
     dark: true,
   }),
   actions: {

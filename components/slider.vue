@@ -1,14 +1,5 @@
 <template>
-  <div class="bg-coloured dark:bg-grayDarkContent dark:bg-none py-6 px-7 rounded-lg shadow-lg">
-    <div
-      v-if="props.title || props.rightAction"
-      class="flex justify-between items-center mb-6"
-    >
-      <div
-        v-if="props.title"
-      ><strong>{{ props.title }}</strong></div>
-      <button class="text-gray2 text-xs text-right" @click="onAll">{{ props.rightAction }}</button>
-    </div>
+  <div class="">
     <div class="flex">
       <!-- container -->
       <div ref="container" class="overflow-hidden select-none">
@@ -39,14 +30,7 @@
 import { PropType, Ref } from 'vue';
 import TSlideItem from '@/types/TSlideItem';
 
-interface Emits {
-  (e: 'all'): void,
-}
-const emit = defineEmits<Emits>();
-
 const props = defineProps({
-  title: { type: String, default: '' },
-  rightAction: { type: String, default: '' },
   items: { type: Object as PropType<TSlideItem[]>, required: true },
 });
 
@@ -80,14 +64,6 @@ onMounted(() => {
     hm.on('panleft panright panup pandown tap press', scrollHandler);
   }
 });
-
-onUnmounted(() => {
-  // container.value.remo
-})
-
-const onAll = () => {
-  emit('all');
-}
 
 const onNext = () => {
   const containerEl = container.value || {};

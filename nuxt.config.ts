@@ -1,6 +1,9 @@
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
   app: {
+    pageTransition: {
+      name: 'slidefade'
+    },
     head: {
       charset: 'utf-8',
       viewport: 'user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1', 
@@ -22,7 +25,7 @@ export default defineNuxtConfig({
   },
   css: [
     '@fortawesome/fontawesome-free/css/all.css',
-    '~/assets/css/tailwind.css',
+    '~/assets/css/tailwind.postcss',
     '~/assets/css/transitions.css',
   ],
   modules: [
