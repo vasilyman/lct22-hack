@@ -40,7 +40,7 @@ let createdAt: string;
 let created: string;
 
 try {
-  created = $dayjs(props.media.createdAt).to();
+  created = $dayjs(props.media.createdAt).toNow();
   createdAt = $dayjs(props.media.createdAt).format('DD MMM YYYY HH:MM:SS');
 } catch (error) {
   console.log(error);
