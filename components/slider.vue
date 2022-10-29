@@ -27,7 +27,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { PropType, Ref } from 'vue';
+import { PropType } from 'vue';
 import TSlideItem from '@/types/TSlideItem';
 
 const props = defineProps({

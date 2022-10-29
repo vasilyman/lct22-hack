@@ -7,7 +7,7 @@
           <i class="far fa-circle-question text-xs text-gray2"></i>
         </div>
         <div
-          class="text-gray text-sm text-right"
+          class="text-gray2 text-sm text-right"
           @click="onAll"
         >
           Посмотреть все

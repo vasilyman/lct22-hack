@@ -36,7 +36,7 @@
       <div class="flex-1"></div>
       <div v-if="idea.hasGrant" class="flex items-center mr-2">
         <i class="far fa-check-circle text-success mr-1"></i>
-        <span class="text-gray2">Получен грант</span>
+        <span class="text-gray2">Инновационная</span>
       </div>
       <div class="flex items-center mr-2">
         <i class="fas fa-heart text-danger mr-1"></i>

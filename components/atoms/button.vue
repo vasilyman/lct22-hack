@@ -1,6 +1,6 @@
 <template>
   <button
-    class="hover:shadow-lg transition-shadow duration-300 flex items-center"
+    class="hover:shadow-lg transition-shadow duration-300 flex items-center justify-center"
     :class="{
       'lg:px-6 py-2 px-4 rounded-xl': props.large,
       'lg:px-6 py-2 px-4 rounded-lg': !props.large,

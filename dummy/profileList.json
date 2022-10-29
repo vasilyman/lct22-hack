@@ -1,0 +1,31 @@
+[
+  {
+    "id": "1",
+    "email": "ivan@mail.ru",
+    "username": "one",
+    "firstname": "Ivan",
+    "lastname": "Abramov",
+    "avatar": "https://placeimg.com/180/180/people",
+    "competitions": [
+      {
+        "title": "UX/UI дизайнер",
+        "codeId": "designer",
+        "isMain": true
+      },
+      {
+        "title": "Фронтенд",
+        "codeId": "frontend"
+      },
+      {
+        "title": "Бэкенд",
+        "codeId": "backend"
+      }
+    ],
+    "birthsday": "1990-12-12",
+    "city": {
+      "title": "Москва",
+      "codeId": "moscow"
+    },
+    "createdAt": "2022-10-12T22:12:23"
+  }
+]

@@ -10,8 +10,9 @@
     </div>
     <div class="">
       <div class="flex items-baseline mb-2">
-        <div class="mr-5"><strong>{{ media.author.name }}</strong></div>
+        <div class="mr-5"><strong>{{ media.title || media.author.name }}</strong></div>
         <div
+          v-if="media.createdAt"
           class="text-xs text-gray2"
           :title="createdAt"
         >{{ created }}</div>

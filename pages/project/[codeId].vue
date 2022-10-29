@@ -12,7 +12,7 @@
         </div>
         <div class="flex items-center">
           <i class="far fa-check-circle text-xs text-success mr-3"></i>
-          <div class="text-sm hidden lg:block">Правительственная поддержка</div>
+          <div class="text-sm hidden lg:block">Инновационная</div>
         </div>
         <div class="flex items-center">
           <i class="fas fa-share text-xs text-gray2 dark:text-white mr-3"></i>
@@ -49,12 +49,13 @@
             <i class="far fa-circle-question text-xs text-gray2"></i>
           </div>
           <div>
-            <div class="text-sm text-gray mb-5">
+            <div class="text-sm text-gray2 mb-5">
               <span class="project__command-arrow">Всего 6 человек! Мы ждем именно тебя.</span>
             </div>
             <AtomsAvatarRow
               :items="idea.command"
               add
+              @select="onSelectUser"
             />
           </div>
         </div>
@@ -102,7 +103,7 @@
             <h3 class="font-bold mr-2">Поддержка от Правительства РФ</h3>
             <i class="far fa-circle-question text-xs text-gray2"></i>
           </div>
-          <div class="text-gray text-sm text-right">
+          <div class="text-gray2 text-sm text-right">
             Посмотреть все
           </div>
         </div>
@@ -132,7 +133,9 @@
 <script lang="ts" setup>
 import { useIdeaStore } from '@/stores/idea';
 import TSlideItem from '@/types/TSlideItem';
+import TAvatarItem from '~~/types/TAvatarItem';
 import TMediaObject from '~~/types/TMediaObject';
+import TSelectItem from '~~/types/TSelectItem';
 
 const route = useRoute();
 const codeId: string = Array.isArray(route.params.codeId) ? route.params.codeId[0] : route.params.codeId;
@@ -194,6 +197,11 @@ const history: TMediaObject[] = [
     }]
   },
 ];
+
+const onSelectUser = (user: TAvatarItem) => {
+  const userId = user.value;
+  router.push('/profile');
+};
 </script>
 <style lang="postcss">
 .project__command-arrow {

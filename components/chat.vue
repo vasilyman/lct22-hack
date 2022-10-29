@@ -4,7 +4,7 @@
       :modelValue="newMessage"
       placeholder="Написать сообщение"
     />
-    <AtomsLine />
+    <AtomsLine class="my-8"/>
     <AtomsMediaObject
       v-for="media in props.items" :key="media.codeId"
       :media="media"

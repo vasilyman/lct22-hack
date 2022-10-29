@@ -22,6 +22,8 @@
               v-model="email"
               placeholder="@"
               class="mb-4"
+              autofocus
+              @keyup.enter="onNext"
             />
             <AtomsInputText
               v-else
@@ -29,6 +31,8 @@
               placeholder="Пароль"
               class="mb-4"
               type="password"
+              autofocus
+              @keyup.enter="onNext"
             />
           </Transition>
         </div>
@@ -36,7 +40,7 @@
           Дальше
         </AtomsButton>
       </div>
-      <AtomsLine />
+      <AtomsLine class="my-8"/>
       <div class="h-40"></div>
     </div>
   </div>
