@@ -3,8 +3,20 @@ import TProfileList from "@/types/TProfileList";
 import TQueryProfileList from '@/types/TQueryProfileList';
 import type { AxiosInstance, AxiosResponse } from "axios";
 import profileList from '@/dummy/profileList.json';
+import TLogin from "@/types/TLogin";
 
 class IdeaService {
+  login(http: AxiosInstance) {
+    return (credentials: TLogin, signal?: AbortSignal): Promise<AxiosResponse<TLogin>> => http({
+      method: 'post',
+      url: '/login',
+      data: {
+        username: credentials.username,
+        password: credentials.password,
+      },
+    });
+  }
+
   get(http: AxiosInstance) {
     return (id: string, signal?: AbortSignal): Promise<AxiosResponse<TProfile>> => Promise.resolve({
       data: profileList.find((item) => item.id === id) as TProfile,

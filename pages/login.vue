@@ -18,7 +18,7 @@
         <div class="overflow-hidden">
           <Transition name="slide-left" mode="out-in" >
             <AtomsInputText
-              v-if="credentials.email === ''"
+              v-if="form.username === ''"
               v-model="email"
               placeholder="@"
               class="mb-4"
@@ -57,28 +57,26 @@ definePageMeta({
 const authStore = useAuthStore();
 
 const isAuthorized = computed(() => authStore.isAuthorised);
-const credentials = computed(() => authStore.credentials);
-
 const appStore = useAppStore();
 const dark = computed(() => appStore.dark);
 
 const email = ref('');
 const password = ref('');
 
+const router = useRouter();
+
 const form = ref<TLogin>({
-  email: '',
+  username: '',
   password: '',
 });
-
-const router = useRouter();
 
 const onNext = () => {
   if (email.value !== '') {
     if (!password.value) {
-      authStore.credentials.email = email.value;
+      form.value.username = email.value;
     } else {
-      authStore.credentials.password = password.value;
-      authStore.login();
+      form.value.password = password.value;
+      authStore.login(form.value);
       router.push('/');
     }
   }

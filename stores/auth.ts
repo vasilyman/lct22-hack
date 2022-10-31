@@ -1,24 +1,24 @@
 import { defineStore } from 'pinia';
 import TLogin from '@/types/TLogin';
+import profileService from '@/services/profileService';
 
 interface TAuthStore {
-  credentials: TLogin,
   token: string | null,
 }
 
 export const useAuthStore = defineStore('auth', {
   state: (): TAuthStore => ({
-    credentials: {
-      email: '',
-    },
     token: null,
   }),
   actions: {
     signup() {
       //
     },
-    login() {
-      this.token = this.credentials.email;
+    async login(credentials: TLogin, signal?: AbortSignal) {
+      return profileService.login(this.$http)(credentials, signal)
+        .then((res) => {          
+          this.token = res.data.token ?? null;
+        });
     },
   },
   getters: {
