@@ -8,7 +8,7 @@ import TLogin from "@/types/TLogin";
 class IdeaService {
   login(http: AxiosInstance) {
     return (credentials: TLogin, signal?: AbortSignal): Promise<AxiosResponse<TLogin>> => http({
-      method: 'post',
+      method: 'POST',
       url: '/login',
       data: {
         username: credentials.username,

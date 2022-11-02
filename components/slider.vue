@@ -7,13 +7,13 @@
           <div
             v-for="item in props.items"
             ref="slide"
-            class="mr-4"
           >
             <slot :item="item" />
           </div>
         </div>
       </div>
       <div
+        v-if="!props.hideArrows"
         class="flex items-center px-3"
       >
         <button
@@ -32,6 +32,7 @@ import TSlideItem from '@/types/TSlideItem';
 
 const props = defineProps({
   items: { type: Object as PropType<TSlideItem[]>, required: true },
+  hideArrows: { type: Boolean },
 });
 
 const container = ref<HTMLElement | null>(null);

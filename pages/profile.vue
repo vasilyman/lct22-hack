@@ -11,6 +11,14 @@
             alt=""
           >
         </div>
+        <div class="xl:hidden flex items-start gap-3 my-3">
+          <AtomsButton color="white" outlined @click="onEdit">
+            <i class="fa-solid fa-pencil "></i>
+          </AtomsButton>
+          <AtomsButton outlined @click="onExit">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </AtomsButton>
+        </div>
         <div>
           <strong>{{ fullname }}</strong>
         </div>
@@ -42,7 +50,7 @@
     </div>
     <div class="col-span-3 lg:col-span-2 flex flex-col gap-3">
       <div class="profile__container lg:rounded-tr-xl">
-        <div class="flex max-lg:gap-3 lg:gap-12">
+        <div class="flex max-lg:gap-3 lg:gap-5">
           <div class="">
             <div class="text-sm text-gray2 mb-2">Возраст</div>
             {{ birthsday }}
@@ -57,6 +65,17 @@
           <div class="">
             <div class="text-sm text-gray2 mb-2">Город</div>
             {{ profile.city.title }}
+          </div>
+          <div class="flex-1"></div>
+          <div class="hidden xl:flex items-start gap-3">
+            <AtomsButton color="white" outlined @click="onEdit">
+              <span class="mr-3">Редактировать</span>
+              <i class="fa-solid fa-pencil "></i>
+            </AtomsButton>
+            <AtomsButton outlined @click="onExit">
+              <span class="mr-3">Выход</span>
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </AtomsButton>
           </div>
         </div>
         <AtomsLine class="my-4 lg:my-6" />
@@ -85,7 +104,8 @@
 <script lang="ts" setup>
 import { useProfileStore } from '@/stores/profile';
 import { TThemeColor } from '@/types/TThemeColor';
-import TMediaObject from '~~/types/TMediaObject';
+import TMediaObject from '@/types/TMediaObject';
+import { useAuthStore } from '@/stores/auth';
 
 const { $dayjs } = useNuxtApp();
 
@@ -99,7 +119,7 @@ const fullname = computed(() => profileStore.fullname(profile));
 
 const birthsday = $dayjs().diff($dayjs(profile.birthsday), 'year');
 
-const created = $dayjs(profile.createdAt).toNow();
+const created = $dayjs(profile.createdAt).fromNow();
 
 const createdAt = $dayjs(profile.createdAt).format('DD MMM YYYY');
 
@@ -122,4 +142,17 @@ const history: TMediaObject[] = Array(5).fill(
     createdAt: '2022-11-11T12:12:45',
   },
 );
+
+const onEdit = () => {
+  //
+}
+
+const tokenCookie = useCookie('token');
+const authStore = useAuthStore();
+const router = useRouter();
+const onExit = () => {
+  tokenCookie.value = '';
+  authStore.logout();
+  router.push('/');
+}
 </script>

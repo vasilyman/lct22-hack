@@ -17,10 +17,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Keys within public, will be also exposed to the client-side
     app: {
-      baseURL: process.env.NUXT_APP_BASE_URL,
+      baseURL: '/',
     },
     public: {
-      apiUrl: process.env.NUXT_PUBLIC_API_URL,
+      apiUrl: '/',
     },
   },
   css: [
@@ -31,5 +31,15 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
+    'nuxt-proxy',
   ],
+  proxy: {
+    options: {
+      target: 'https://collabro.ru',
+      changeOrigin: true,
+      pathFilter: [
+        '/api',
+      ]
+    }
+  },
 });

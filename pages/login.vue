@@ -18,22 +18,28 @@
         <div class="overflow-hidden">
           <Transition name="slide-left" mode="out-in" >
             <AtomsInputText
-              v-if="form.username === ''"
+              v-if="step === 0"
               v-model="email"
               placeholder="@"
               class="mb-4"
               autofocus
               @keyup.enter="onNext"
             />
-            <AtomsInputText
-              v-else
-              v-model="password"
-              placeholder="Пароль"
-              class="mb-4"
-              type="password"
-              autofocus
-              @keyup.enter="onNext"
-            />
+            <div v-else>
+              <div
+                class="text-center p-2 cursor-pointer"
+                title="Редактировать"
+                @click="onBack"
+              >{{ email }}</div>
+              <AtomsInputText
+                v-model="password"
+                placeholder="Пароль"
+                class="mb-4"
+                type="password"
+                autofocus
+                @keyup.enter="onNext"
+              />
+            </div>
           </Transition>
         </div>
         <AtomsButton class="w-full" @click="onNext">
@@ -62,23 +68,27 @@ const dark = computed(() => appStore.dark);
 
 const email = ref('');
 const password = ref('');
+const step = ref(0);
 
 const router = useRouter();
+const tokenCookie = useCookie('token');
 
-const form = ref<TLogin>({
-  username: '',
-  password: '',
-});
+const onNext = async () => {
+  if (email.value && step.value === 0) step.value = 1;
 
-const onNext = () => {
-  if (email.value !== '') {
-    if (!password.value) {
-      form.value.username = email.value;
-    } else {
-      form.value.password = password.value;
-      authStore.login(form.value);
-      router.push('/');
-    }
+  if (email.value && password.value && step.value === 1) {
+    await authStore.login({ username: email.value, password: password.value })
+      .then((token) => {
+        tokenCookie.value = token || "";
+        router.push('/');
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
+}
+
+const onBack = () => {
+  step.value = step.value !== 0 ? step.value -= 1 : 0;
 }
 </script>

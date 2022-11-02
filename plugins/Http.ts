@@ -3,12 +3,14 @@
 import { PiniaPluginContext, Pinia } from "pinia";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig();
-
+  
   const $pinia: Pinia = nuxtApp.$pinia as Pinia;
 
-  const baseUrl = config.public.apiUrl || '';
+  const baseUrl = isDev ? '/api/v1' : config.public.apiUrl;
 
   const http = axios.create();
 

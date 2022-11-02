@@ -9,15 +9,17 @@
       <i class="fas fa-arrow-left text-xl"></i>
       <div class="hidden :lg:block ml-3">Назад</div>
     </AtomsButton>
-    <div
-      class="hover:shadow-md h-8 w-8 rounded-full flex justify-center items-center transition-all duration-300 cursor-pointer"
-      @click="onToggleDarkMode"
-    >
-      <i class="fas fa-moon"></i>
-    </div>
     <div class="flex-1"></div>
     <AtomsButton class="lg:mr-10 mr-3">
       Добавить идею
+    </AtomsButton>
+    <AtomsToggle
+      v-model="localDark"
+      theme-switcher 
+      class="lg:mr-10 mr-3"
+    />
+    <AtomsButton color="transparent" class="lg:mr-10 mr-3">
+      <i class="far fa-bell"></i>
     </AtomsButton>
     <div
       v-if="isAuthorized"
@@ -58,9 +60,14 @@ const emit = defineEmits<Emits>();
 
 const router = useRouter();
 
-const onToggleDarkMode = () => {
-  emit('update:dark', !props.dark);
-};
+const localDark = computed({
+  get() {
+    return props.dark
+  },
+  set(val) {
+    emit('update:dark', val);
+  }
+})
 
 const onLogin = () => {
   router.push('/profile');

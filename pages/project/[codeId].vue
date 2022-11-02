@@ -19,7 +19,10 @@
           <div class="text-sm hidden lg:block">Поделиться</div>
         </div>
       </div>
-      <div class="flex items-center">
+      <div
+        class="flex items-center cursor-pointer"
+        @click="onEdit()"
+      >
         <i class="fas fa-pencil text-xs text-gray2 dark:text-white mr-3"></i>
         <div class="text-sm hidden lg:block">Редактировать идею</div>
       </div>
@@ -27,6 +30,13 @@
     <div class="flex flex-row">
       <div class="profile__container rounded-t-xl grid grid-cols-12 gap-3">
         <div class="lg:col-span-7 col-span-12">
+          <div
+            class="text-sm text-gray2 mb-1 cursor-pointer"
+            @click="onEdit('theme')"
+          >
+            <i class="fas fa-pencil mr-1"></i>
+            Категория: {{ idea.codeId }}
+          </div>
           <h1 class="text-xl mb-4">{{ idea.title }}</h1>
           <p class="pb-5">{{ idea.description }}</p>
         </div>
@@ -103,19 +113,42 @@
             <h3 class="font-bold mr-2">Поддержка от Правительства РФ</h3>
             <i class="far fa-circle-question text-xs text-gray2"></i>
           </div>
-          <div class="text-gray2 text-sm text-right">
+          <div class="text-gray2 text-sm text-right whitespace-nowrap">
             Посмотреть все
           </div>
         </div>
         <Slider
           :items="items"
+          hide-arrows
         >
           <template #default="{ item }">
             <IdeaCardSmall
               :item="item"
               class="cursor-pointer"
+              tiny
               @click="onClickSliderItem(item)"
             />
+          </template>
+        </Slider>
+      </div>
+    </div>
+    <div class="flex flex-row gap-3">
+      <div class="profile__container lg:px-10">
+        <AtomsButtonGroup
+          :items="userListVariants"
+          v-model="userListVariant"
+          class="mb-6"
+        />
+        <Slider
+          :items="userItems"
+          hide-arrows
+        >
+          <template #default="{ item }">
+            <UserItem :item="item">
+              <AtomsButton outlined small class="mt-3">
+                Принять
+              </AtomsButton>
+            </UserItem>
           </template>
         </Slider>
       </div>
@@ -128,6 +161,12 @@
         <Chat :items="history" />
       </div>
     </div>
+    <AtomsModal
+      v-model="editModal"
+      :title="'Редактирование идеи'"
+    >
+      <FormIdeaTheme v-if="formIdeaComponentType === 'theme'" />
+    </AtomsModal>
   </div>
 </template>
 <script lang="ts" setup>
@@ -202,6 +241,33 @@ const onSelectUser = (user: TAvatarItem) => {
   const userId = user.value;
   router.push('/profile');
 };
+
+
+const editModal = ref(false);
+const formIdeaComponentType = ref('');
+const onEdit = (type?: string) => {
+  formIdeaComponentType.value = type ?? '';
+  editModal.value = true;
+};
+
+const userItems: TSlideItem[] = Array(10).fill({}).map((item) => ({
+  title: 'one',
+  id: 'one',
+  image: 'https://placeimg.com/180/180/people'
+}));
+
+const userListVariants: TSelectItem[] = [
+  {
+    value: 'requested',
+    title: 'Заявки',
+  },
+  {
+    value: 'recommended',
+    title: 'Рекомендованные',
+  },
+];
+
+const userListVariant = ref<string | number>('requested');
 </script>
 <style lang="postcss">
 .project__command-arrow {
