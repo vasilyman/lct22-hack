@@ -9,7 +9,7 @@ COPY . .
 RUN npm ci
 
 # build env
-ARG NUXT_PUBLIC_API_URL=/
+ENV NUXT_PUBLIC_API_URL=https://collabro.ru/api/v1
 
 #runtime env
 ENV HOST=0.0.0.0
