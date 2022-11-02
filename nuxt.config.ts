@@ -42,4 +42,7 @@ export default defineNuxtConfig({
       ]
     }
   },
+  experimental: {
+    writeEarlyHints: false,
+  },
 });
