@@ -31,17 +31,7 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
-    'nuxt-proxy',
   ],
-  proxy: {
-    options: {
-      target: 'https://collabro.ru',
-      changeOrigin: true,
-      pathFilter: [
-        '/api',
-      ]
-    }
-  },
   experimental: {
     writeEarlyHints: false,
   },

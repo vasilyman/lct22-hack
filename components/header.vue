@@ -3,14 +3,18 @@
     <AtomsButton
       v-if="route.path !== '/'"
       class="mr-3"
-      color="transparent"
+      color="text"
       @click="onBack"
     >
       <i class="fas fa-arrow-left text-xl"></i>
       <div class="hidden :lg:block ml-3">Назад</div>
     </AtomsButton>
     <div class="flex-1"></div>
-    <AtomsButton class="lg:mr-10 mr-3">
+    <AtomsButton
+      v-if="canAdd"
+      class="lg:mr-10 mr-3"
+      @click="onAdd"
+    >
       Добавить идею
     </AtomsButton>
     <AtomsToggle
@@ -18,7 +22,11 @@
       theme-switcher 
       class="lg:mr-10 mr-3"
     />
-    <AtomsButton color="transparent" class="lg:mr-10 mr-3">
+    <AtomsButton
+      v-if="canViewNotify"
+      color="text"
+      class="lg:mr-10 mr-3"
+    >
       <i class="far fa-bell"></i>
     </AtomsButton>
     <div
@@ -76,4 +84,13 @@ const onLogin = () => {
 const onBack = () => {
   router.back();
 };
+
+const onAdd = () => {
+  router.push('/new-project');
+}
+
+const canAdd = computed(() => {
+  return authStore.isAuthorised && !['new-project', 'project-codeId'].includes(route.name as string ?? '');
+});
+const canViewNotify = computed(() => authStore.isAuthorised);
 </script>

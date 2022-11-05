@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="flex">
+    <div class="flex justify-between">
       <!-- container -->
       <div ref="container" class="overflow-hidden select-none">
         <div class="flex">

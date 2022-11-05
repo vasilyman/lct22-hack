@@ -42,7 +42,7 @@ const localValue = computed({
   @apply cursor-pointer;
 
   &__slider {
-    @apply dark:bg-grayDarkContent bg-gray2 rounded-full relative;
+    @apply dark:bg-grayDarkContent bg-gray rounded-full relative;
 
     height: 1.75rem;
     width: var(--toggle-width);

@@ -13,7 +13,9 @@ module.exports = {
       gray3: '#202020',
       grayDark: '#222831',
       grayDarkContent: 'rgba(57, 62, 70, 1)',
+      lightBg: '#F2F5FA',
       red: '#FF6B00',
+      yellow: 'rgb(231 208 0 / <alpha-value>)',
     }
   }
 }

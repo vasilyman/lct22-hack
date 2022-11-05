@@ -7,10 +7,13 @@
       'button__color_primary': props.color === 'primary',
       'button__color_success': props.color === 'success',
       'button__color_info': props.color === 'info',
+      'button__color_text': props.color === 'text',
+      'button__color_gray': props.color === 'gray',
       'button__style_outlined': props.outlined,
       'button__size_small': props.small,
       'button__size_large': props.large,
     }"
+    :type="props.type"
     @click="onClick"
   >
     <slot />
@@ -23,16 +26,15 @@ import { TThemeColor } from '@/types/TThemeColor';
 const props = defineProps({
   large: { type: Boolean },
   to: { type: [String, Object], default: '' },
-  color: { type: String as PropType<TThemeColor | 'transparent' | 'gray'>, default: 'primary' },
+  color: { type: String as PropType<TThemeColor | 'transparent' | 'gray' | 'text'>, default: 'primary' },
   outlined: { type: Boolean },
   small: { type: Boolean },
+  type: { type: String as PropType<'button' | 'submit' | 'reset'>, default: 'button' },
 });
 
 const router = useRouter();
 
 const onClick = (e: Event) => {
-  e.preventDefault();  
-
   if (props.to ) {
     router.push(props.to).catch((e) => {
       console.log(e);
@@ -44,7 +46,7 @@ const color = props.color || 'primary';
 </script>
 <style lang="postcss">
 .button {
-  @apply hover:shadow-lg transition-shadow duration-300 flex items-center justify-center lg:px-6 py-2 px-4 rounded-lg;
+  @apply hover:shadow-lg transition-all duration-300 flex items-center justify-center lg:px-6 py-2 px-4 rounded-lg whitespace-nowrap;
 
   &__size {
     &_large {
@@ -74,6 +76,9 @@ const color = props.color || 'primary';
     &_gray {
       @apply bg-gray text-white;
     }
+    &_text {
+      @apply bg-none hover:shadow-none dark:hover:shadow-none hover:text-primary p-2;
+    }
   }
 
   &__style {
@@ -90,6 +95,9 @@ const color = props.color || 'primary';
         }
         &_info {
           @apply bg-none text-info hover:shadow-info/20 border border-info;
+        }
+        &_gray {
+          @apply bg-none text-gray2 hover:shadow-gray2/20 border border-gray2;
         }
       }
     }

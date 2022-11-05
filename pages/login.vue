@@ -23,6 +23,7 @@
               placeholder="@"
               class="mb-4"
               autofocus
+              name="email"
               @keyup.enter="onNext"
             />
             <div v-else>
@@ -37,6 +38,7 @@
                 class="mb-4"
                 type="password"
                 autofocus
+                name="password"
                 @keyup.enter="onNext"
               />
             </div>
@@ -77,7 +79,7 @@ const onNext = async () => {
   if (email.value && step.value === 0) step.value = 1;
 
   if (email.value && password.value && step.value === 1) {
-    await authStore.login({ username: email.value, password: password.value })
+    await authStore.login({ email: email.value, password: password.value })
       .then((token) => {
         tokenCookie.value = token || "";
         router.push('/');

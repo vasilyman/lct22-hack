@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gradient-blue dark:bg-grayDarkContent dark:bg-none rounded-lg shadow-sm p-4">
+  <div class="bg-white dark:bg-grayDarkContent dark:bg-none rounded-lg shadow-sm p-4">
     <div class="mb-3">
       <nuxt-link :to="ideaLink">
         <strong>{{ idea.title }}</strong>
@@ -43,7 +43,7 @@
         <span class="text-gray2">{{ idea.likes }}</span>
       </div>
       <div class="flex items-center">
-        <i class="fas fa-comments text-danger mr-1"></i>
+        <i class="fas fa-comment-dots text-danger mr-1"></i>
         <span class="text-gray2">{{ idea.comments }}</span>
       </div>
     </div>

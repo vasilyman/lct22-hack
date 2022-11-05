@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-coloured dark:bg-grayDarkContent dark:bg-none py-6 px-7 rounded-lg shadow-lg">
+    <div class="bg-white dark:bg-grayDarkContent dark:bg-none py-6 px-7 rounded-lg shadow-lg">
       <div class="flex justify-between items-center mb-6">
         <div class="flex items-center mr-3">
           <h3 class="font-bold mr-2">Это может быть интересно</h3>
@@ -15,6 +15,7 @@
       </div>
       <Slider
         :items="items"
+        class="-mr-7"
       >
         <template #default="{ item }">
           <IdeaCardSmall
@@ -32,14 +33,14 @@
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
       <IdeaCard
-        v-for="card in cadrs" :key="card.id"
+        v-for="card in cadrs" :key="card.codeId"
         :idea="card"
       />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import TSlideItem from '@/types/TSlideItem';
+import TSlideItem, { SlideItem } from '@/types/TSlideItem';
 import TIdeaCard from '@/types/TIdeaCard';
 import { useIdeaStore } from '@/stores/idea';
 
@@ -49,13 +50,19 @@ const onAll = () => {
 
 const ideaStore = useIdeaStore();
 
-const cadrs: TIdeaCard[] = (await ideaStore.fetchIdeaList({})).items;
+const cadrs = ref<TIdeaCard[]>([]);
+const items = ref<TSlideItem[]>([]);
 
-const items: TSlideItem[] = (await ideaStore.fetchIdeaList({})).items.map((item) => ({
-  title: item.title,
-  id: item.codeId,
-  image: item.imageUrl,
-}));
+const cardsSync = await useAsyncData<TIdeaCard[]>(() => ideaStore.fetchIdeaList({}));
+
+if (cardsSync.data.value) {
+  cadrs.value = cardsSync.data.value;
+  items.value = cardsSync.data.value.map((item) => new SlideItem({
+    id: item.codeId,
+    title: item.title,
+    image: item.imageUrl
+  }));
+}
 
 const router = useRouter();
 const onClickSliderItem = (item: TSlideItem) => {

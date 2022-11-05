@@ -11,7 +11,7 @@ class IdeaService {
       method: 'POST',
       url: '/login',
       data: {
-        username: credentials.username,
+        email: credentials.email,
         password: credentials.password,
       },
     });

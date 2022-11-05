@@ -7,17 +7,16 @@
     >
       {{ props.label }}
     </label>
-    <input
+    <textarea
       ref="input"
       :id="id"
       v-model="localValue"
       class="border border-gray rounded-lg w-full p-3 bg-white/0 outline-none"
-      :type="props.type ?? 'text'"
       :placeholder="props.placeholder"
       :autofocus="autofocus"
-      :name="name"
+      :rows="props.rows"
       @input="onInput"
-    >
+    />
   </div>
 </template>
 <script lang="ts" setup>
@@ -27,11 +26,10 @@ const id = nanoid();
 
 const props = defineProps({
   placeholder: { type: String },
-  type: { type: String },
   modelValue: { type: String, required: true },
   autofocus: { type: Boolean },
   label: { type: String },
-  name: { type: String },
+  rows: { type: String, default: '5' },
 });
 
 interface Emits {
@@ -47,15 +45,37 @@ watch(modelValue, (val) => {
 });
 
 const onInput = (e: Event) => {
-  emit('update:modelValue', (e.target as HTMLInputElement).value);
+  emit('update:modelValue', (e.target as HTMLTextAreaElement).value);
 }
 
-const input = ref<HTMLInputElement | null>(null);
+const input = ref<HTMLTextAreaElement | null>(null);
+
+const autoHeightHandler = (e: Event) => {
+  const el = e.target;
+  if (el instanceof HTMLTextAreaElement) {
+    const offset = el.offsetHeight - el.clientHeight;
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + offset + 'px';
+  }
+}
 onMounted(() => {
   // fix autofocus
   const activeEl = document.activeElement;
-  if (props.autofocus && input.value instanceof HTMLInputElement && input.value !== activeEl) {
-    input.value.focus();
+  const inputEl = input.value;
+  if (props.autofocus && inputEl && inputEl !== activeEl) {
+    inputEl.focus();
   }
+
+  // fix autoresize
+  if (inputEl) {
+    inputEl.style.boxSizing = 'border-box';
+    inputEl.addEventListener('input', autoHeightHandler);
+  }
+});
+
+onUnmounted(() => {
+  const inputEl = input.value;
+
+  if (inputEl) inputEl.removeEventListener('input', autoHeightHandler);
 });
 </script>

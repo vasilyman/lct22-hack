@@ -1,5 +1,5 @@
 export default interface TLogin {
-  username: string,
+  email: string,
   password?: string,
-  token?: string,
+  accessToken?: string,
 }

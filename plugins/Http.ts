@@ -10,13 +10,21 @@ export default defineNuxtPlugin((nuxtApp) => {
   
   const $pinia: Pinia = nuxtApp.$pinia as Pinia;
 
-  const baseUrl = isDev ? '/api/v1' : config.public.apiUrl;
+  const baseUrl = isDev ? 'http://localhost:8888/api/v1/' : config.public.apiUrl;
 
   const http = axios.create();
 
   const $http = <T>(params: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
 
     params.baseURL = baseUrl;
+
+    const token = useCookie('token');
+    if (token.value) {
+      params.headers = {
+        authorization: `Bearer ${ token.value }`,
+        ...params.headers,
+      };
+    }
 
     return http.request(params);
   };

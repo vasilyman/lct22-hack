@@ -79,16 +79,16 @@ watch(localValue, (val) => {
         });
         anime({
           targets: contentEl,
-          translateY: '-50%',
+          translateY: '-100px',
           duration: 200,
-          easing: 'linear',
+          easing: 'easeInOutQuad',
           direction: 'reverse',
         });
       } else {
         anime({
           targets: contentEl,
           keyframes: [
-            {translateY: '50%'},
+            {translateY: '100px'},
             {translateY: 0},
           ],
           duration: 400,

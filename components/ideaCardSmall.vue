@@ -21,12 +21,13 @@
         Инновационный проект
       </div>
     </div>
-    <div class="text-xs">{{ item.title }}</div>
+    <div class="text-xs">{{ ellipsis(item.title, 40) }}</div>
   </div>
 </template>
 <script lang="ts" setup>
 import TSlideItem from '@/types/TSlideItem';
 import { PropType } from 'vue';
+import ellipsis from '~~/utils/ellipsis';
 
 const props = defineProps({
   item: { type: Object as PropType<TSlideItem>, required: true },
@@ -35,7 +36,7 @@ const props = defineProps({
 </script>
 <style lang="postcss">
 .idea-card-small {
-  @apply w-48 flex flex-col mr-3;
+  @apply w-48 flex flex-col mr-2;
 
   &__size {
     &_tiny {

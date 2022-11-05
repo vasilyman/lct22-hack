@@ -48,7 +48,23 @@
   }
 
   .profile__container {
-    @apply dark:bg-grayDarkContent p-4 lg:p-6 shadow-lg dark:shadow-none border border-gray dark:border-none w-full;
+    @apply bg-white dark:bg-grayDarkContent p-4 lg:p-6 shadow-lg dark:shadow-none border border-gray dark:border-none w-full;
+  }
+}
+
+@layer components {
+  .text-gradient {
+    background: -webkit-linear-gradient(0deg, #7b00ff, #8cfffb, #aaf968);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .icon {
+    @apply w-3 h-3;
+
+    &_comment {
+      background-image: '@/assets/';
+    }
   }
 }
 

@@ -38,11 +38,10 @@ watch(dark, (val) => {
     },
   });
 });
-
 </script>
 <style lang="postcss">
 .layout {
-  @apply text-gray3 dark:text-white dark:bg-grayDark min-h-screen flex flex-col;
+  @apply text-gray3 bg-lightBg dark:text-white dark:bg-grayDark min-h-screen flex flex-col;
 
   &__container {
     @apply xl:container px-3 w-full mx-auto;

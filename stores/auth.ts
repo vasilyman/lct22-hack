@@ -17,7 +17,8 @@ export const useAuthStore = defineStore('auth', {
     async login(credentials: TLogin, signal?: AbortSignal) {
       return profileService.login(this.$http)(credentials, signal)
         .then((res) => {
-          const token = res.data.token ?? null;
+          const token = res.data.accessToken;
+          if (!token) throw new Error('ошибка авторизации');
           this.token = token;
           return token;
         });
