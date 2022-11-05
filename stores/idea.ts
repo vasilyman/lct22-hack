@@ -24,7 +24,7 @@ export const useIdeaStore = defineStore('idea', {
     },
     fetchIdeaList(query: TQueryIdeaList, signal?: AbortSignal): Promise<TIdeaCard[]> {
       return ideaService.getList(this.$http)(query, signal)
-        .then((res) => { 
+        .then((res) => {
           return res.data.map((item) => new IdeaCard(item));
         });
     },

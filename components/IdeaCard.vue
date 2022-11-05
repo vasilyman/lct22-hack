@@ -1,9 +1,18 @@
 <template>
   <div class="bg-white dark:bg-grayDarkContent dark:bg-none rounded-lg shadow-sm p-4">
-    <div class="mb-3">
-      <nuxt-link :to="ideaLink">
-        <strong>{{ idea.title }}</strong>
-      </nuxt-link>
+    <div class="mb-3 flex justify-between">
+      <div class="">
+        <nuxt-link :to="ideaLink">
+          <strong>{{ idea.title }}</strong>
+        </nuxt-link>
+      </div>
+      <div
+        v-if="isAuthorIdea"
+        class="text-sm text-gray2 hover:text-primary cursor-pointer"
+        @click="onEdit"
+      >
+        <i class="fas fa-pencil"></i>
+      </div>
     </div>
     <div class="text-sm mb-4">{{ idea.description }}</div>
     <div class="text-xs mb-4 flex flex-row justify-between">
@@ -15,7 +24,7 @@
             small
             class="mr-2"
           />
-          <div>{{ idea.author.name }}</div>
+          <div>{{ authorName }}</div>
         </div>
       </div>
       <div class="gap-1 basis-1/2 flex flex-wrap justify-end items-start">
@@ -52,6 +61,7 @@
 <script lang="ts" setup>
 import TIdeaCard from '@/types/TIdeaCard';
 import { PropType } from 'vue';
+import { useAuthStore } from '~~/stores/auth';
 
 const { $dayjs } = useNuxtApp();
 
@@ -69,6 +79,23 @@ try {
 } catch (error) {
   console.log(error);
 }
+
+const authStore = useAuthStore();
+
+const isAuthorIdea = computed(() => {
+  return authStore.user?.id === idea.author.id;
+});
+
+const authorName = computed(() => {
+  const nameParts = [idea.author.firstName, idea.author.lastName].filter((item) => !!item);
+  return nameParts.join(' ');
+});
+
+const router = useRouter();
+
+const onEdit = () => {
+  router.push({ name: 'edit-project', params: { codeId: idea.codeId }});
+};
 
 const ideaLink: string = `/project/${idea.codeId}`;
 </script>

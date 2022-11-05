@@ -78,7 +78,7 @@ const localDark = computed({
 })
 
 const onLogin = () => {
-  router.push('/profile');
+  router.push({ name: 'me' });
 };
 
 const onBack = () => {

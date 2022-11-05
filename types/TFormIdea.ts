@@ -1,3 +1,4 @@
+import TCompetence from "./TCompetence";
 import TDocument from "./TDocument";
 import TTag from "./TTag";
 
@@ -12,6 +13,7 @@ export interface TFormIdea extends TFormIdeaDescription {
   description: string,
   tags?: TTag[],
   files?: TDocument[],
+  competencies?: TCompetence[],
 }
 
 export class FormIdea implements TFormIdea {
@@ -20,6 +22,7 @@ export class FormIdea implements TFormIdea {
   description: string;
   files?: TDocument[];
   tags?: TTag[];
+  competencies?: TCompetence[];
 
   constructor(data?: TFormIdea) {
     this.id = data?.title;
@@ -27,5 +30,6 @@ export class FormIdea implements TFormIdea {
     this.description = data?.description || '';
     this.files = data?.files || [];
     this.tags = data?.tags || [];
+    this.competencies = data?.competencies || [];
   }
 };

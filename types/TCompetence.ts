@@ -3,33 +3,20 @@ import { TThemeColor } from "./TThemeColor";
 
 const colors: TThemeColor[] = ['success', 'primary', 'white', 'warning', 'danger', 'info'];
 
-export default interface TTag {
+export default interface TCompetence {
   codeId: string,
   title: string,
   color: string,
 }
 
-export interface TTagProject extends TTag {
-  ordered: number,
-}
-
-export class Tag implements TTag {
+export class Competence implements TCompetence {
   codeId: string;
   title: string;
   color: string;
 
-  constructor(data?: TTag | any) {
+  constructor(data?: TCompetence | any) {
     this.codeId = data?.id;
     this.title = data?.title;
     this.color = data?.color || colors[data?.id] || 'white';
-  }
-}
-
-export class TagProject extends Tag {
-  ordered: number;
-
-  constructor(data?: TTagProject | any) {
-    super(data);
-    this.ordered = data?.ordered ?? 0;
   }
 }

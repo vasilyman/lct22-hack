@@ -2,15 +2,9 @@ import { defineStore } from 'pinia';
 import TLogin from '@/types/TLogin';
 import profileService from '@/services/profileService';
 import jwt_decode from "jwt-decode";
-
-enum ERole { ROLE_ADMIN, ROLE_USER };
-
-interface TRole {
-  id: string,
-  name: string,
-}
+import { TRole } from '~~/types/TRole';
 interface TUser {
-  sub: string,
+  id: string,
   exp: number,
   roles: TRole[],
   type: string,
@@ -23,13 +17,13 @@ interface TAuthStore {
 }
 
 class User implements TUser {
-  sub: string;
+  id: string;
   exp: number;
   roles: TRole[];
   type: string;
 
   constructor(data?: TUser | any) {
-    this.sub = data?.sub;
+    this.id = data?.sub;
     this.exp = data?.exp;
     this.roles = data?.roles;
     this.type = data?.type;

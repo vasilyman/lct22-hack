@@ -32,5 +32,21 @@ export default <RouterConfig> {
         middleware: ['anon-deny'],
       },
     },
+    {
+      name: 'me',
+      path: '/me',
+      component: () => import('~/pages/profile.vue'),
+      meta: {
+        middleware: ['anon-deny'],
+      },
+    },
+    {
+      name: 'profile',
+      path: '/profile/:codeId',
+      component: () => import('~/pages/profile.vue'),
+      meta: {
+        middleware: ['anon-deny'],
+      },
+    },
   ],
 };

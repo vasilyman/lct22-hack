@@ -23,6 +23,7 @@
         </div>
       </div>
       <div
+        v-if="isAuthorIdea"
         class="flex items-center cursor-pointer"
         @click="onEdit('edit')"
       >
@@ -38,7 +39,7 @@
             @click="onEdit('theme')"
           >
             <i class="fas fa-pencil mr-1"></i>
-            Категория: {{ idea.codeId }}
+            Категория: {{ mainCategory }}
           </div>
           <h1 class="text-xl mb-4">{{ idea.title }}</h1>
           <div>
@@ -53,11 +54,11 @@
           </div>
           <div class="gap-1 basis-1/2 flex flex-wrap items-start lg:mb-10 mb-5">
             <AtomsChip
-              v-for="tag in idea.tags"
-              :key="tag.codeId"
-              :color="tag.color"
+              v-for="item in idea.competencies"
+              :key="item.codeId"
+              :color="item.color"
             >
-              {{ tag.title }}
+              {{ item.title }}
             </AtomsChip>
           </div>
           <div class="flex items-center mb-5">
@@ -164,6 +165,7 @@
 import { useIdeaStore } from '@/stores/idea';
 import { useSubsidyStore } from '@/stores/subsidy';
 import TSlideItem, { SlideItem } from '@/types/TSlideItem';
+import { useAuthStore } from '~~/stores/auth';
 import TAvatarItem from '~~/types/TAvatarItem';
 import { TFormIdeaDescription } from '~~/types/TFormIdea';
 import TIdeaCard, { IdeaCard } from '~~/types/TIdeaCard';
@@ -246,13 +248,16 @@ const history: TMediaObject[] = [
 
 const onSelectUser = (user: TAvatarItem) => {
   const userId = user.value;
-  router.push('/profile');
+  router.push({ name: 'profile', params: { codeId: userId }});
 };
 
+const authStore = useAuthStore();
 
 const editModal = ref(false);
 const formIdeaComponentType = ref('');
-const isAuthorIdea = ref(true);
+const isAuthorIdea = computed(() => {
+  return idea.author.id === authStore.user?.id;
+});
 
 const onEdit = (type?: string) => {
   if (isAuthorIdea.value && type === 'edit') {
@@ -291,6 +296,10 @@ const ideaDescription = reactive<TFormIdeaDescription>({
 const onSubmit = (type: string) => {
   console.log(type, ideaDescription);
 };
+
+const mainCategory = computed<string>(() => {
+  return idea.tags?.sort((a, b) => a.ordered - b.ordered)[0].title || 'нет присвоена';
+});
 
 onUnmounted(() => {
   clearNuxtData();

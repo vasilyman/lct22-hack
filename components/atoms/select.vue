@@ -11,13 +11,14 @@
       :select-opened="isShowedOptions"
       :dense="dense"
       :flat="flat"
+      :label="props.label"
       @focus="onFocus"
       @blur="onBlur"
     />
     <transition name="slidefade">
       <div
         v-if="isShowedOptions"
-        class="shadow-md border text-gray3 border-gray rounded-b-md py-2 absolute top-100 left-0 w-full bg-white"
+        class="shadow-md border text-gray3 border-gray rounded-b-md py-2 absolute top-100 left-0 w-full bg-white z-10"
         @click.stop
       >
         <option
@@ -46,6 +47,7 @@ const props = defineProps({
   noDataText: { type: String, default: 'Нет данных' },
   dense: { type: Boolean },
   flat: { type: Boolean },
+  label: { type: String },
   returnObject: { type: Boolean },
 });
 

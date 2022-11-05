@@ -32,6 +32,7 @@
       >
         <FormIdeaCategory
           v-model:categories="ideaForm.tags"
+          v-bind:competencies="ideaForm.competencies"
         />
       </div>
       <div
@@ -127,6 +128,7 @@ if (codeId.value) {
       ideaForm.value.title = data.value.title;
       ideaForm.value.description = data.value.description;
       ideaForm.value.tags = data.value.tags;
+      ideaForm.value.competencies = data.value.competencies;
     });
 
   fethces.push(ideaSync);
