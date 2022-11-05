@@ -4,13 +4,16 @@
       <div class="flex gap-3">
         <div class="flex items-center ">
           <i class="fas fa-comment-dots text-xs text-danger mr-3"></i>
-          <div class="text-sm">5433 <span class="hidden lg:inline">комментария</span></div>
+          <div class="text-sm">{{ idea.comments }} <span class="hidden lg:inline">комментария</span></div>
         </div>
         <div class="flex items-center">
           <i class="fas fa-heart text-xs text-danger mr-3"></i>
-          <div class="text-sm">45345 <span class="hidden lg:inline">понравилось</span> </div>
+          <div class="text-sm">{{ idea.likes }} <span class="hidden lg:inline">понравилось</span> </div>
         </div>
-        <div class="flex items-center">
+        <div
+          v-if="isInnovation"
+          class="flex items-center"
+        >
           <i class="far fa-check-circle text-xs text-success mr-3"></i>
           <div class="text-sm hidden lg:block">Инновационная</div>
         </div>
@@ -21,7 +24,7 @@
       </div>
       <div
         class="flex items-center cursor-pointer"
-        @click="onEdit()"
+        @click="onEdit('edit')"
       >
         <i class="fas fa-pencil text-xs text-gray2 dark:text-white mr-3"></i>
         <div class="text-sm hidden lg:block">Редактировать идею</div>
@@ -159,6 +162,7 @@
 </template>
 <script lang="ts" setup>
 import { useIdeaStore } from '@/stores/idea';
+import { useSubsidyStore } from '@/stores/subsidy';
 import TSlideItem, { SlideItem } from '@/types/TSlideItem';
 import TAvatarItem from '~~/types/TAvatarItem';
 import { TFormIdeaDescription } from '~~/types/TFormIdea';
@@ -166,7 +170,9 @@ import TIdeaCard, { IdeaCard } from '~~/types/TIdeaCard';
 import TMediaObject from '~~/types/TMediaObject';
 import TSelectItem from '~~/types/TSelectItem';
 
+
 const ideaStore = useIdeaStore();
+const subsidyStore = useSubsidyStore();
 
 const route = useRoute();
 
@@ -177,13 +183,9 @@ const ideaSync = useAsyncData<TIdeaCard>(async () => {
   return new IdeaCard(res);
 });
 
-const itemsSync = useAsyncData<TSlideItem[]>(async () => {
-  const res = await ideaStore.fetchIdeaList({}).catch(() => ([]));
-  return res.map((item) => new SlideItem({
-    id: item.codeId,
-    title: item.title,
-    image: item.imageUrl,
-  }));
+const itemsSync = useAsyncData<SlideItem[]>(async () => {
+  const res = await subsidyStore.fetchSubsidyList({});
+  return res?.map((item) => new SlideItem(item));
 });
 
 await Promise.allSettled([ideaSync, itemsSync]);
@@ -192,6 +194,10 @@ if (!ideaSync.data.value) throw createError({ statusCode: 404 });
 
 const idea = ideaSync.data.value;
 const items = itemsSync.data.value;
+
+const isInnovation = computed<boolean>(() => {
+  return !!idea.innovations?.length;
+});
 
 const router = useRouter();
 const onClickSliderItem = async (item: TSlideItem) => {
@@ -246,7 +252,14 @@ const onSelectUser = (user: TAvatarItem) => {
 
 const editModal = ref(false);
 const formIdeaComponentType = ref('');
+const isAuthorIdea = ref(true);
+
 const onEdit = (type?: string) => {
+  if (isAuthorIdea.value && type === 'edit') {
+    router.push({ name: 'edit-project', params: { codeId: codeId.value }});
+    return;
+  }
+
   formIdeaComponentType.value = type ?? '';
   editModal.value = true;
 };

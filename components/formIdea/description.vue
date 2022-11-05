@@ -6,11 +6,11 @@
     >
       <AtomsInputText
         label="Название"
-        v-model="form.title"
+        v-model="titleLocal"
       />
       <AtomsTextArea
         label="Описание"
-        v-model="form.description"
+        v-model="descriptionLocal"
       />
       <div class="flex justify-end">
         <slot />
@@ -19,25 +19,33 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { TFormIdeaDescription, FormIdea } from '~~/types/TFormIdea';
-import { PropType } from 'vue';
 
 const props = defineProps({
-  modelValue: { type: Object as PropType<TFormIdeaDescription>, default: () => ({}) },
+  title: { type: String },
+  description: { type: String },
 });
 
 interface Emits {
-  (e: 'update:modelValue', value: TFormIdeaDescription): void,
+  (e: 'update:title' | 'update:description', value: string): void,
 }
 
 const emit = defineEmits<Emits>();
 
-const form = computed<TFormIdeaDescription>({
+const titleLocal = computed<string>({
   get() {
-    return props.modelValue;
+    return props.title ?? '';
   },
-  set(val: TFormIdeaDescription) {
-    emit('update:modelValue', val);
+  set(val: string) {
+    emit('update:title', val);
+  },
+});
+
+const descriptionLocal = computed<string>({
+  get() {
+    return props.description ?? '';
+  },
+  set(val: string) {
+    emit('update:description', val);
   },
 });
 </script>

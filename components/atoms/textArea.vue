@@ -40,8 +40,8 @@ const emit = defineEmits<Emits>();
 const localValue = ref('');
 const modelValue = ref(props.modelValue);
 
-watch(modelValue, (val) => {
-  localValue.value = val;
+watchEffect(() => {
+  localValue.value = modelValue.value;
 });
 
 const onInput = (e: Event) => {

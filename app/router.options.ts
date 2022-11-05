@@ -14,4 +14,23 @@ export default <RouterConfig> {
       };
     }
   },
+  routes: (_routes) => [
+    ..._routes,
+    {
+      name: 'new-project',
+      path: '/new-project',
+      component: () => import('~/pages/form-project.vue'),
+      meta: {
+        middleware: ['anon-deny'],
+      },
+    },
+    {
+      name: 'edit-project',
+      path: '/edit-project/:codeId',
+      component: () => import('~/pages/form-project.vue'),
+      meta: {
+        middleware: ['anon-deny'],
+      },
+    },
+  ],
 };

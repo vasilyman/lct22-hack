@@ -59,7 +59,7 @@ import TLogin from '@/types/TLogin';
 import { useAuthStore } from '@/stores/auth';
 
 definePageMeta({
-  middleware: ["auth"]
+  middleware: ["auth-deny"]
 })
 
 const authStore = useAuthStore();

@@ -30,6 +30,15 @@ class IdeaService {
       signal,
     });
   }
+
+  update(http: AxiosInstance) {
+    return (data: TFormIdea, signal?: AbortSignal): Promise<AxiosResponse<string>> => http({
+      method: 'post',
+      url: 'project/update',
+      data,
+      signal,
+    });
+  }
 }
 
 export default new IdeaService();

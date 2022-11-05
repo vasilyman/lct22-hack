@@ -11,12 +11,17 @@
       ref="input"
       :id="id"
       v-model="localValue"
-      class="border border-gray rounded-lg w-full p-3 bg-white/0 outline-none"
+      class="border border-gray rounded-t-lg w-full p-3 bg-white/0 outline-none transition-all duration-300"
+      :class="{
+        'rounded-b-lg': !props.selectOpened,
+      }"
       :type="props.type ?? 'text'"
       :placeholder="props.placeholder"
       :autofocus="autofocus"
       :name="name"
       @input="onInput"
+      @focus="onFocus"
+      @blur="onBlur"
     >
   </div>
 </template>
@@ -32,23 +37,31 @@ const props = defineProps({
   autofocus: { type: Boolean },
   label: { type: String },
   name: { type: String },
+  selectOpened: { type: Boolean },
 });
 
 interface Emits {
   (e: 'update:modelValue', value: string): void,
+  (e: 'focus' | 'blur', value: Event): void,
 }
 const emit = defineEmits<Emits>();
 
-const localValue = ref('');
-const modelValue = ref(props.modelValue);
-
-watch(modelValue, (val) => {
-  localValue.value = val;
+const localValue = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(val) {
+    emit('update:modelValue', val);
+  },
 });
 
-const onInput = (e: Event) => {
-  emit('update:modelValue', (e.target as HTMLInputElement).value);
-}
+const onFocus = (e: Event) => {
+  emit('focus', e);
+};
+
+const onBlur = (e: Event) => {
+  emit('blur', e);
+};
 
 const input = ref<HTMLInputElement | null>(null);
 onMounted(() => {

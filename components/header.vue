@@ -82,15 +82,28 @@ const onLogin = () => {
 };
 
 const onBack = () => {
-  router.back();
+  let nextRoute: string = '';
+  switch (route.name) {
+    case 'project-codeId':
+      nextRoute = 'index';
+      break;
+    case 'edit-project':
+      nextRoute = 'project-codeId';
+      break;
+    default:
+      break;
+  }
+  if (nextRoute !== '') {
+    router.replace({ name: nextRoute });
+  } else router.back();
 };
 
 const onAdd = () => {
-  router.push('/new-project');
+  router.push('new-project');
 }
 
 const canAdd = computed(() => {
-  return authStore.isAuthorised && !['new-project', 'project-codeId'].includes(route.name as string ?? '');
+  return authStore.isAuthorised && !['new-project', 'edit-project', 'project-codeId'].includes(route.name as string ?? '');
 });
 const canViewNotify = computed(() => authStore.isAuthorised);
 </script>

@@ -34,5 +34,11 @@ export const useIdeaStore = defineStore('idea', {
           return res.data;
         });
     },
+    updateIdea(idea: TFormIdea, signal?: AbortSignal) {
+      return ideaService.update(this.$http)(idea, signal)
+        .then((res) => {          
+          return res.data;
+        });
+    },
   },
 });
