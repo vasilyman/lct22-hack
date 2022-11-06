@@ -154,7 +154,13 @@
         >
           <template #default="{ item }">
             <UserItem :item="item">
-              <AtomsButton outlined small class="mt-3">
+              <AtomsButton
+                v-if="isAuthorIdea"
+                outlined
+                small
+                class="mt-3"
+                @click="onAccept(item)"
+              >
                 Принять
               </AtomsButton>
             </UserItem>
@@ -382,6 +388,13 @@ const onAdd = () => {
         ideaSync.refresh();
       });
   }
+};
+
+const onAccept = (acceptedUser: SlideItem) => {
+  ideaStore.joinAs(idea.value.codeId, acceptedUser.id, 'MEMBER')
+    .then(() => {
+      ideaSync.refresh();
+    });
 };
 
 onUnmounted(() => {
