@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import { TRole } from '~~/types/TRole';
 interface TUser {
   id: string,
+  sub: string,
   exp: number,
   roles: TRole[],
   type: string,
@@ -18,12 +19,14 @@ interface TAuthStore {
 
 class User implements TUser {
   id: string;
+  sub: string;
   exp: number;
   roles: TRole[];
   type: string;
 
   constructor(data?: TUser | any) {
-    this.id = data?.sub;
+    this.id = data?.id;
+    this.sub = data?.sub;
     this.exp = data?.exp;
     this.roles = data?.roles;
     this.type = data?.type;
@@ -71,9 +74,9 @@ export const useAuthStore = defineStore('auth', {
       try {
         const decoded = jwt_decode(token);
         if (!decoded) throw new Error('bad token');
-        this.user = new User(decoded);
+        this.user = decoded as TUser;
         if (!checkExp(this.user?.exp)) throw new Error('expired token');
-        this.role = this.user.roles[0] ?? null;
+        this.role = this.user?.roles[0] ?? null;
         this.token = token;
       } catch (error) {
         console.log(error);
@@ -86,6 +89,12 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     isAuthorised(): boolean {
       return checkExp(this.user?.exp);
+    },
+    getUser(): TUser | null {
+      return this.user;
+    },
+    isAdmin(): boolean {
+      return this.role?.name === 'ROLE_ADMIN';
     },
   },
 });

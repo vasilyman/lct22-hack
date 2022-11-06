@@ -20,7 +20,7 @@ export const useProfileStore = defineStore('profile', {
   },
   getters: {
     fullname: () => (profile: TProfile) => {
-      return [profile.firstname || '', profile.lastname || profile.username].join(' ');
+      return [profile.firstName || '', profile.lastName || profile.username].join(' ');
     }
   },
 });

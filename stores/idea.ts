@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
-import TIdeaCard, { IdeaCard } from '@/types/TIdeaCard';
+import TIdeaCard from '@/types/TIdeaCard';
 import ideaService from '@/services/ideaService';
 import TQueryIdeaList from '@/types/TQueryIdeaList';
 import TIdeaCardList from '@/types/TIdeaCardList';
 import { TFormIdea } from '~~/types/TFormIdea';
+import { TMemberStatus } from '~~/types/TMemberStatus';
 
 interface TIdeaStore {
   idea: TIdeaCard | null,
@@ -25,7 +26,7 @@ export const useIdeaStore = defineStore('idea', {
     fetchIdeaList(query: TQueryIdeaList, signal?: AbortSignal): Promise<TIdeaCard[]> {
       return ideaService.getList(this.$http)(query, signal)
         .then((res) => {
-          return res.data.map((item) => new IdeaCard(item));
+          return res.data;
         });
     },
     createIdea(idea: TFormIdea, signal?: AbortSignal) {
@@ -36,6 +37,12 @@ export const useIdeaStore = defineStore('idea', {
     },
     updateIdea(idea: TFormIdea, signal?: AbortSignal) {
       return ideaService.update(this.$http)(idea, signal)
+        .then((res) => {          
+          return res.data;
+        });
+    },
+    joinAs(idea: string, user: string, status: TMemberStatus, signal?: AbortSignal) {
+      return ideaService.joinAs(this.$http)(idea, user, status, signal)
         .then((res) => {          
           return res.data;
         });

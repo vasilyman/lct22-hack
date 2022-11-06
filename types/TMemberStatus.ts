@@ -1,0 +1,1 @@
+export type TMemberStatus = 'MEMBER' | 'CANDIDATE' | 'RECOMMENDED';

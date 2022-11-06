@@ -41,7 +41,7 @@
 </template>
 <script setup lang="ts">
 import TSlideItem, { SlideItem } from '@/types/TSlideItem';
-import TIdeaCard from '@/types/TIdeaCard';
+import TIdeaCard, { IdeaCardDTO } from '@/types/TIdeaCard';
 import { useIdeaStore } from '@/stores/idea';
 
 const onAll = () => {
@@ -56,8 +56,9 @@ const items = ref<TSlideItem[]>([]);
 const cardsSync = await useAsyncData<TIdeaCard[]>(() => ideaStore.fetchIdeaList({}));
 
 if (cardsSync.data.value) {
-  cadrs.value = cardsSync.data.value;
-  items.value = cardsSync.data.value.map((item) => new SlideItem({
+  const ideas = cardsSync.data.value.map((item) => new IdeaCardDTO(item));
+  cadrs.value = ideas;
+  items.value = ideas.map((item) => new SlideItem({
     id: item.codeId,
     title: item.title,
     image: item.imageUrl

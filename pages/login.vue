@@ -68,8 +68,8 @@ const isAuthorized = computed(() => authStore.isAuthorised);
 const appStore = useAppStore();
 const dark = computed(() => appStore.dark);
 
-const email = ref('');
-const password = ref('');
+const email = ref('ivan@mail.ru');
+const password = ref('Ivan080navI');
 const step = ref(0);
 
 const router = useRouter();

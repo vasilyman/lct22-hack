@@ -4,7 +4,7 @@ import TQueryIdeaList from '@/types/TQueryIdeaList';
 import type { AxiosInstance, AxiosResponse } from "axios";
 import projectList from '@/dummy/projectsList.json';
 import { TFormIdea } from "~~/types/TFormIdea";
-
+import { TMemberStatus } from "~~/types/TMemberStatus";
 class IdeaService {
   get(http: AxiosInstance) {
     return (codeId: string, signal?: AbortSignal): Promise<AxiosResponse<TIdeaCard>> => http({
@@ -36,6 +36,18 @@ class IdeaService {
       method: 'post',
       url: 'project/update',
       data,
+      signal,
+    });
+  }
+
+  joinAs(http: AxiosInstance) {
+    return (idea: string, user: string, status: TMemberStatus, signal?: AbortSignal): Promise<AxiosResponse<string>> => http({
+      method: 'post',
+      url: `project/append/${status.toLocaleLowerCase()}`,
+      data: {
+        user_id: Number(user),
+        project_id: Number(idea),
+      },
       signal,
     });
   }

@@ -50,6 +50,18 @@
   .profile__container {
     @apply bg-white dark:bg-grayDarkContent p-4 lg:p-6 shadow-lg dark:shadow-none border border-gray dark:border-none w-full;
   }
+
+  .demo-text-dark {
+    background: -webkit-linear-gradient(90deg, rgba(255, 255, 255, 0), rgb(255, 255, 255));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .demo-text {
+    background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0), rgb(0, 0, 0));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 @layer components {
@@ -65,6 +77,12 @@
     &_comment {
       background-image: '@/assets/';
     }
+  }
+
+  .app__container {
+    @apply xl:container px-3 w-full mx-auto;
+
+    max-width: 1110px;
   }
 }
 

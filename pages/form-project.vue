@@ -65,7 +65,7 @@
 import { TFormIdeaDescription, TFormIdea, FormIdea } from '@/types/TFormIdea';
 import TDocument from '~~/types/TDocument';
 import { useIdeaStore } from '@/stores/idea';
-import TIdeaCard, { IdeaCard } from '~~/types/TIdeaCard';
+import TIdeaCard, { IdeaCard, IdeaCardDTO } from '~~/types/TIdeaCard';
 
 const route = useRoute();
 
@@ -119,16 +119,18 @@ if (codeId.value) {
   // clearNuxtData();
   const ideaSync = useAsyncData<TIdeaCard>(async () => {
     const res = await ideaStore.fetchIdea(codeId.value);
-    return new IdeaCard(res);
+    return res;
   })
     .then(({ data }) => {
       if (!data.value) throw createError({ statusCode: 404 });
 
+      const idea = new IdeaCardDTO(data.value);
+
       ideaForm.value.id = codeId.value;
-      ideaForm.value.title = data.value.title;
-      ideaForm.value.description = data.value.description;
-      ideaForm.value.tags = data.value.tags;
-      ideaForm.value.competencies = data.value.competencies;
+      ideaForm.value.title = idea.title;
+      ideaForm.value.description = idea.description;
+      ideaForm.value.tags = idea.tags;
+      ideaForm.value.competencies = idea.competencies;
     });
 
   fethces.push(ideaSync);

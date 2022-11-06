@@ -4,6 +4,9 @@
       v-if="open"
       ref="modal"
       class="modal"
+      :class="{
+        'modal_full': fullscreen,
+      }"
     >
       <div
         class="modal__overlay"
@@ -33,6 +36,7 @@ import anime from 'animejs/lib/anime.es.js';
 const props = defineProps({
   modelValue: { type: Boolean, required: true },
   title: { type: String },
+  fullscreen: { type: Boolean },
 });
 
 interface Emits {
@@ -133,6 +137,19 @@ const onClose = () => {
 
   &__close {
     @apply text-lg absolute top-3 right-4 cursor-pointer p-3;
+  }
+}
+.modal.modal_full {
+  @apply p-3;
+
+  .modal__content {
+    @apply app__container min-h-full dark:bg-grayDarkContent;
+
+    max-width: 1110px;
+  }
+
+  .modal__overlay {
+    @apply dark:bg-grayDark opacity-100;
   }
 }
 </style>

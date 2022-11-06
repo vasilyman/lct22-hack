@@ -3,7 +3,7 @@
     <div class="mb-3 flex justify-between">
       <div class="">
         <nuxt-link :to="ideaLink">
-          <strong>{{ idea.title }}</strong>
+          <strong>{{ ideaTitle }}</strong>
         </nuxt-link>
       </div>
       <div
@@ -14,7 +14,7 @@
         <i class="fas fa-pencil"></i>
       </div>
     </div>
-    <div class="text-sm mb-4">{{ idea.description }}</div>
+    <div class="text-sm mb-4">{{ ideaDescription }}</div>
     <div class="text-xs mb-4 flex flex-row justify-between">
       <div class="basis-1/2">
         <div class="mb-1">Автор</div>
@@ -59,22 +59,23 @@
   </div>
 </template>
 <script lang="ts" setup>
-import TIdeaCard from '@/types/TIdeaCard';
+import TIdeaCard, { IdeaCard } from '@/types/TIdeaCard';
 import { PropType } from 'vue';
 import { useAuthStore } from '~~/stores/auth';
+import ellipsis from '~~/utils/ellipsis';
 
 const { $dayjs } = useNuxtApp();
 
 const props = defineProps({
-  idea: { type: Object as PropType<TIdeaCard>, default: '' },
+  idea: { type: Object as PropType<TIdeaCard>, default: {} },
 });
 
-const idea = props.idea;
+const idea = new IdeaCard(props.idea);
 
 let createdAt: string;
 let created: string;
 try {
-  created = $dayjs(idea.createdAt).toNow();
+  created = $dayjs(idea.createdAt).fromNow();
   createdAt = $dayjs(idea.createdAt).format('DD MMM YYYY HH:MM:SS');
 } catch (error) {
   console.log(error);
@@ -87,8 +88,15 @@ const isAuthorIdea = computed(() => {
 });
 
 const authorName = computed(() => {
-  const nameParts = [idea.author.firstName, idea.author.lastName].filter((item) => !!item);
-  return nameParts.join(' ');
+  return idea.author.getFullName();
+});
+
+const ideaTitle = computed(() => {
+  return ellipsis(idea?.title ?? '', 50);
+});
+
+const ideaDescription = computed(() => {
+  return ellipsis(idea?.description ?? '', 130);
 });
 
 const router = useRouter();

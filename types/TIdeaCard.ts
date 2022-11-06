@@ -1,11 +1,11 @@
 import { nanoid } from "nanoid";
 import TAvatarItem from "./TAvatarItem";
 import TCompetence, { Competence } from "./TCompetence";
-import TDocument from "./TDocument";
+import TDocument, { Doc } from "./TDocument";
 import TProfile from "./TProfile";
 import { TagProject, TTagProject } from "./TTag";
 import { TThemeColor } from "./TThemeColor";
-import { TUser, User } from "./TUser";
+import { TUser, TUserProjectMember, User, UserProjectMember } from "./TUser";
 
 export default interface TIdeaCard {
   codeId: string,
@@ -17,7 +17,7 @@ export default interface TIdeaCard {
   hasGrant: boolean,
   tags?: TTagProject[],
   createdAt: string,
-  command?: TAvatarItem[],
+  members?: TUserProjectMember[],
   documents?: TDocument[],
   imageUrl?: string,
   innovations?: Object[],
@@ -34,14 +34,14 @@ export class IdeaCard implements TIdeaCard {
   hasGrant: boolean;
   tags?: TTagProject[];
   createdAt: string;
-  command?: TAvatarItem[];
+  members?: TUserProjectMember[];
   documents?: TDocument[];
   imageUrl?: string;
   innovations?: Object[];
   competencies?: TCompetence[];
 
-  constructor(data?: any) {
-    this.codeId = data?.id;
+  constructor(data?: TIdeaCard | any) {
+    this.codeId = data?.codeId;
     this.title = data?.title ?? '';
     this.description = data?.description ?? '';
     this.author = new User(data?.author);
@@ -50,10 +50,23 @@ export class IdeaCard implements TIdeaCard {
     this.hasGrant = data?.hasGrant ?? false;
     this.tags =  data?.tags?.map((item: TTagProject) => new TagProject(item)) ?? [];
     this.createdAt = data?.createdAt ?? '';
-    this.command = data?.command ?? [];
-    this.documents = data?.documents ?? [];
+    this.members = data?.members?.map((item: TUserProjectMember) => new UserProjectMember(item)) ?? [];
+    this.documents = data?.documents?.map((item: TDocument) => new Doc(item)) ?? [new Doc({
+      codeId: 'one',
+      title: 'Демо документ',
+      type: 'application/pdf',
+      size: '135647'
+    })];
     this.innovations = data?.innovations ?? [];
     this.imageUrl = data?.imageUrl ?? 'https://placeimg.com/180/180/arch';
     this.competencies = data?.competencies?.map((item: TCompetence) => new Competence(item)) ?? [];
+  }
+}
+
+export class IdeaCardDTO extends IdeaCard {
+  constructor(data?: TIdeaCard | any) {
+    super(data);
+
+    this.codeId = data?.id;
   }
 }

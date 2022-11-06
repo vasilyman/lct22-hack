@@ -45,7 +45,20 @@
           <div>
             <img src="" alt="">
           </div>
-          <p class="pb-5">{{ idea.description }}</p>
+          <div class="relative">
+            <p class="demo-text dark:demo-text-dark">
+              {{ ideaDescription }}
+            </p>
+            <AtomsButton
+              color="text"
+              small
+              class="-ml-2"
+              @click="toggleMaximize"
+            >
+              <span class="mr-2">Подробнее</span>
+              <i class="fas fa-maximize"></i>
+            </AtomsButton>
+          </div>
         </div>
         <div class="lg:col-span-5 col-span-12">
           <div class="flex items-center mb-5">
@@ -70,12 +83,22 @@
               <span class="project__command-arrow">Всего 6 человек! Мы ждем именно тебя.</span>
             </div>
             <AtomsAvatarRow
-              :items="idea.command"
+              :items="ideaMembersAndAuthor"
               add
               @select="onSelectUser"
+              @add="onAdd"
             />
           </div>
         </div>
+      </div>
+    </div>
+    <div class="flex flex-row">
+      <div class="profile__container">
+        <div class="flex items-center mb-3">
+          <h3 class="font-bold mr-2">Трекинг идеи</h3>
+          <i class="far fa-circle-question text-xs text-gray2"></i>
+        </div>
+        <IdeaTracking />
       </div>
     </div>
     <div class="grid grid-cols-2 gap-3">
@@ -126,7 +149,7 @@
           class="mb-6"
         />
         <Slider
-          :items="userItems"
+          :items="ideaCandidates"
           hide-arrows
         >
           <template #default="{ item }">
@@ -151,13 +174,22 @@
       v-model="editModal"
       :title="'Редактирование идеи'"
     >
-      <FormIdeaDescription v-model="ideaDescription">
+      <FormIdeaDescription>
         <AtomsButton
           @click="onSubmit(formIdeaComponentType)"
         >
           Сохранить
         </AtomsButton>
       </FormIdeaDescription>
+    </AtomsModal>
+    <AtomsModal v-model="showFullIdea" fullscreen>
+      <h1 class="text-xl mb-4">{{ idea.title }}</h1>
+      <div>
+        <img src="" alt="">
+      </div>
+      <p class="">
+        {{ idea.description }}
+      </p>
     </AtomsModal>
   </div>
 </template>
@@ -168,13 +200,17 @@ import TSlideItem, { SlideItem } from '@/types/TSlideItem';
 import { useAuthStore } from '~~/stores/auth';
 import TAvatarItem from '~~/types/TAvatarItem';
 import { TFormIdeaDescription } from '~~/types/TFormIdea';
-import TIdeaCard, { IdeaCard } from '~~/types/TIdeaCard';
+import TIdeaCard, { IdeaCard, IdeaCardDTO } from '~~/types/TIdeaCard';
 import TMediaObject from '~~/types/TMediaObject';
 import TSelectItem from '~~/types/TSelectItem';
+import TSubsidy from '~~/types/TSubsidy';
+import { User } from '~~/types/TUser';
+import ellipsis from '~~/utils/ellipsis';
 
 
 const ideaStore = useIdeaStore();
 const subsidyStore = useSubsidyStore();
+const authStore = useAuthStore();
 
 const route = useRoute();
 
@@ -182,20 +218,50 @@ const codeId = ref<string>(route.params.codeId as string);
 
 const ideaSync = useAsyncData<TIdeaCard>(async () => {
   const res = await ideaStore.fetchIdea(codeId.value);
-  return new IdeaCard(res);
+  return res;
 });
+
+const demoSubsidy: TSubsidy = {
+  id: 'one',
+  title: 'Демо субсидия',
+  image: 'https://placeimg.com/180/180/nature',
+};
 
 const itemsSync = useAsyncData<SlideItem[]>(async () => {
   const res = await subsidyStore.fetchSubsidyList({});
-  return res?.map((item) => new SlideItem(item));
+  return res.length === 0 ? [demoSubsidy] : res;
 });
 
 await Promise.allSettled([ideaSync, itemsSync]);
 
 if (!ideaSync.data.value) throw createError({ statusCode: 404 });
 
-const idea = ideaSync.data.value;
-const items = itemsSync.data.value;
+const idea = new IdeaCardDTO(ideaSync.data.value);
+const items = itemsSync.data.value?.map((item) => new SlideItem(item)) ?? [];
+
+const ideaCandidates = computed<TSlideItem[]>(() => {
+  return (idea.members ?? [])
+    .filter((item) => {
+      return item.status === 'CANDIDATE';
+    })
+    .map((item) => ({
+      title: item.getFullName(),
+      image: item.photo || 'https://placeimg.com/180/180/people',
+      id: item.id,
+    }));
+});
+
+const ideaMembers = computed(() => {
+  return (idea.members ?? []).filter((item) => {
+    return item.status === 'MEMBER';
+  });
+});
+
+const ideaMembersAndAuthor: TAvatarItem[] = [idea.author, ...ideaMembers.value].map((item, i) => ({
+  value: item.id,
+  title: (i === 0 ? 'Автор: ' : '') + item.getFullName(),
+  url: item.photo
+})) || [];
 
 const isInnovation = computed<boolean>(() => {
   return !!idea.innovations?.length;
@@ -251,12 +317,15 @@ const onSelectUser = (user: TAvatarItem) => {
   router.push({ name: 'profile', params: { codeId: userId }});
 };
 
-const authStore = useAuthStore();
-
 const editModal = ref(false);
 const formIdeaComponentType = ref('');
-const isAuthorIdea = computed(() => {
+
+const isAuthorIdea = computed<boolean>(() => {
   return idea.author.id === authStore.user?.id;
+});
+
+const isAdmin = computed<boolean>(() => {
+  return authStore.isAdmin;
 });
 
 const onEdit = (type?: string) => {
@@ -268,12 +337,6 @@ const onEdit = (type?: string) => {
   formIdeaComponentType.value = type ?? '';
   editModal.value = true;
 };
-
-const userItems: TSlideItem[] = Array(10).fill({}).map((item) => ({
-  title: 'one',
-  id: 'one',
-  image: 'https://placeimg.com/180/180/people'
-}));
 
 const userListVariants: TSelectItem[] = [
   {
@@ -288,18 +351,33 @@ const userListVariants: TSelectItem[] = [
 
 const userListVariant = ref<string | number>('requested');
 
-const ideaDescription = reactive<TFormIdeaDescription>({
-  title: '',
-  description: '',
-});
 
 const onSubmit = (type: string) => {
-  console.log(type, ideaDescription);
+  console.log(type);
 };
 
 const mainCategory = computed<string>(() => {
-  return idea.tags?.sort((a, b) => a.ordered - b.ordered)[0].title || 'нет присвоена';
+  return idea.tags?.sort((a, b) => a.ordered - b.ordered)[0]?.title || 'нет присвоена';
 });
+
+const ideaDescription = computed<string>(() => {
+  return ellipsis(idea.description, 400);
+});
+
+const showFullIdea = ref(false);
+
+const toggleMaximize = () => {
+  showFullIdea.value = !showFullIdea.value;
+};
+
+const onAdd = () => {
+  if (isAuthorIdea.value || isAdmin.value) {
+    console.log('select user');
+  } else {
+    const userId = authStore.user?.id;
+    if (userId) ideaStore.joinAs(idea.codeId, userId, 'CANDIDATE');
+  }
+};
 
 onUnmounted(() => {
   clearNuxtData();

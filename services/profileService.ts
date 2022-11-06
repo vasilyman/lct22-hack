@@ -14,25 +14,16 @@ class IdeaService {
         email: credentials.email,
         password: credentials.password,
       },
+      signal,
     });
   }
 
   get(http: AxiosInstance) {
-    return (id: string, signal?: AbortSignal): Promise<AxiosResponse<TProfile>> => Promise.resolve({
-      data: profileList.find((item) => item.id === id) as TProfile,
-      status: 200,
-      statusText: '',
-      headers: {},
-      config: {},
+    return (codeId: string, signal?: AbortSignal): Promise<AxiosResponse<TProfile>> => http({
+      method: 'get',
+      url: `profiles/${ codeId }`,
+      signal,
     });
-
-    // return (codeId: string): Promise<AxiosResponse<TIdeaCard>> => http({
-    //   method: 'get',
-    //   url: 'node/get-by-code',
-    //   params: {
-    //     codeId,
-    //   },
-    // });
   }
 
   getList(http: AxiosInstance) {

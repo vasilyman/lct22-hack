@@ -23,19 +23,27 @@
           <strong>{{ fullname }}</strong>
         </div>
         <div class="text-sm text-gray2 mb-4">
-          {{ mainCompetition }}
+          {{ mainCompetence }}
         </div>
         <div class="flex w-full mb-4">
-          <div class="flex-grow text-center flex flex-col justify-between">
+          <div
+            class="flex-grow text-center flex flex-col justify-between"
+            :title="`Личных: ${profile.ownIdeasCount}\nУчастник: ${profile.ideasCount}`"
+          >
             <div class="">
               <img class="mx-auto" src="@/assets/img/brain.png" alt="">
             </div>
-            <div class="flex items-center justify-center"><span><strong class="text-md mr-1">15</strong></span><span class="text-sm">идей</span></div>
+            <div
+              class="flex items-center justify-center"
+            >
+              <span><strong class="text-md mr-1">{{ totalIdeas }}</strong></span>
+              <span class="text-sm">идей</span>
+            </div>
           </div>
           <AtomsLine vertical />
           <div class="flex-grow text-center flex flex-col justify-between">
             <div class="flex mx-auto items-center">
-              <span><strong class="text-md mr-1">15</strong></span>
+              <span><strong class="text-md mr-1">{{ profile.rating }}</strong></span>
               <div>
                 <img class="mx-auto" src="@/assets/img/star.png" alt="">
               </div>
@@ -85,9 +93,9 @@
         </div>
         <div class="gap-1 flex flex-wrap items-start">
           <AtomsChip
-            v-for="(tag, i) in profile.competitions"
+            v-for="(tag, i) in profile.competencies"
             :key="tag.codeId"
-            :color="getColor(i)"
+            :color="tag.color"
           >
             {{ tag.title }}
           </AtomsChip>
@@ -103,32 +111,66 @@
 </template>
 <script lang="ts" setup>
 import { useProfileStore } from '@/stores/profile';
-import { TThemeColor } from '@/types/TThemeColor';
 import TMediaObject from '@/types/TMediaObject';
 import { useAuthStore } from '@/stores/auth';
+import TProfile, { Profile, ProfileDTO } from '~~/types/TProfile';
 
 const { $dayjs } = useNuxtApp();
 
 const profileStore = useProfileStore();
 
-const id = '1'
+const route = useRoute();
 
-const profile = await profileStore.fetchProfile(id);
+const router = useRouter();
 
-const fullname = computed(() => profileStore.fullname(profile));
+const authStore = useAuthStore();
 
-const birthsday = $dayjs().diff($dayjs(profile.birthsday), 'year');
+const id = route.name !== 'me' ? route.params.codeId as string : authStore.user?.id ?? '';
 
-const created = $dayjs(profile.createdAt).fromNow();
+if (!id) {
+  router.push('/');
+}
 
-const createdAt = $dayjs(profile.createdAt).format('DD MMM YYYY');
+const profile = ref<TProfile>(new Profile());
 
-const getColor = (i: number): TThemeColor => {
-  const colors: TThemeColor[] = ['white', 'success', 'danger', 'info', 'primary', 'warning'];
-  return colors[i % colors.length];
-};
+const fetches = [];
 
-const mainCompetition = profile.competitions.find((item) => item.isMain)?.title;
+const profileSync = useAsyncData<TProfile>(async () => {
+  const res = await profileStore.fetchProfile(id);
+  return res;
+})
+  .then(({ data }) => {
+    if (!data.value) return;
+
+    profile.value = new ProfileDTO(data.value);
+  });
+
+fetches.push(profileSync);
+
+const fullname = computed(() => {
+  const nameParts = [profile.value.firstName, profile.value.lastName].filter((item) => !!item);
+  return nameParts.join(' ');
+});
+
+const birthsday = computed(() => {
+  return $dayjs().diff($dayjs(profile.value.birthsday), 'year');
+});
+
+const created = computed(() => {
+  return $dayjs(profile.value.createdAt).fromNow();
+});
+
+const createdAt = computed(() => {
+  return $dayjs(profile.value.createdAt).format('DD MMM YYYY');
+});
+
+const mainCompetence = computed(() => {
+  return profile.value.competencies?.find((item) => item.is_expert)?.title;
+});
+
+const totalIdeas = computed<number>(() => {
+  return (profile.value?.ownIdeasCount ?? 0) + (profile.value?.ideasCount ?? 0);
+});
 
 const history: TMediaObject[] = Array(5).fill(
   {
@@ -148,8 +190,6 @@ const onEdit = () => {
 }
 
 const tokenCookie = useCookie('token');
-const authStore = useAuthStore();
-const router = useRouter();
 const onExit = () => {
   tokenCookie.value = '';
   authStore.logout();
