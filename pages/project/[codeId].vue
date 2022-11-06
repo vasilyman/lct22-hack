@@ -236,13 +236,28 @@ await Promise.allSettled([ideaSync, itemsSync]);
 
 if (!ideaSync.data.value) throw createError({ statusCode: 404 });
 
-const idea = new IdeaCardDTO(ideaSync.data.value);
+const idea = computed(() => {
+  return new IdeaCardDTO(ideaSync.data.value);
+});
 const items = itemsSync.data.value?.map((item) => new SlideItem(item)) ?? [];
 
+const userListVariants: TSelectItem[] = [
+  {
+    value: 'CANDIDATE',
+    title: 'Заявки',
+  },
+  {
+    value: 'RECOMMENDED',
+    title: 'Рекомендованные',
+  },
+];
+
+const userListVariant = ref<string>('CANDIDATE');
+
 const ideaCandidates = computed<TSlideItem[]>(() => {
-  return (idea.members ?? [])
+  return (idea.value.members ?? [])
     .filter((item) => {
-      return item.status === 'CANDIDATE';
+      return item.status === userListVariant.value;
     })
     .map((item) => ({
       title: item.getFullName(),
@@ -252,19 +267,19 @@ const ideaCandidates = computed<TSlideItem[]>(() => {
 });
 
 const ideaMembers = computed(() => {
-  return (idea.members ?? []).filter((item) => {
+  return (idea.value.members ?? []).filter((item) => {
     return item.status === 'MEMBER';
   });
 });
 
-const ideaMembersAndAuthor: TAvatarItem[] = [idea.author, ...ideaMembers.value].map((item, i) => ({
+const ideaMembersAndAuthor: TAvatarItem[] = [idea.value.author, ...ideaMembers.value].map((item, i) => ({
   value: item.id,
   title: (i === 0 ? 'Автор: ' : '') + item.getFullName(),
   url: item.photo
 })) || [];
 
 const isInnovation = computed<boolean>(() => {
-  return !!idea.innovations?.length;
+  return !!idea.value.innovations?.length;
 });
 
 const router = useRouter();
@@ -321,7 +336,7 @@ const editModal = ref(false);
 const formIdeaComponentType = ref('');
 
 const isAuthorIdea = computed<boolean>(() => {
-  return idea.author.id === authStore.user?.id;
+  return idea.value.author.id === authStore.user?.id;
 });
 
 const isAdmin = computed<boolean>(() => {
@@ -338,30 +353,17 @@ const onEdit = (type?: string) => {
   editModal.value = true;
 };
 
-const userListVariants: TSelectItem[] = [
-  {
-    value: 'requested',
-    title: 'Заявки',
-  },
-  {
-    value: 'recommended',
-    title: 'Рекомендованные',
-  },
-];
-
-const userListVariant = ref<string | number>('requested');
-
 
 const onSubmit = (type: string) => {
   console.log(type);
 };
 
 const mainCategory = computed<string>(() => {
-  return idea.tags?.sort((a, b) => a.ordered - b.ordered)[0]?.title || 'нет присвоена';
+  return idea.value.tags?.sort((a, b) => a.ordered - b.ordered)[0]?.title || 'нет присвоена';
 });
 
 const ideaDescription = computed<string>(() => {
-  return ellipsis(idea.description, 400);
+  return ellipsis(idea.value.description, 400);
 });
 
 const showFullIdea = ref(false);
@@ -375,7 +377,10 @@ const onAdd = () => {
     console.log('select user');
   } else {
     const userId = authStore.user?.id;
-    if (userId) ideaStore.joinAs(idea.codeId, userId, 'CANDIDATE');
+    if (userId) ideaStore.joinAs(idea.value.codeId, userId, 'CANDIDATE')
+      .then(() => {
+        ideaSync.refresh();
+      });
   }
 };
 
