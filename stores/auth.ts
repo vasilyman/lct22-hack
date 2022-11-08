@@ -3,6 +3,8 @@ import TLogin from '@/types/TLogin';
 import profileService from '@/services/profileService';
 import jwt_decode from "jwt-decode";
 import { TRole } from '~~/types/TRole';
+import Cookies from 'js-cookie';
+
 interface TUser {
   id: string,
   sub: string,
@@ -57,16 +59,18 @@ export const useAuthStore = defineStore('auth', {
         .then((res) => {
           const token = res.data.accessToken;
           if (!token) throw new Error('ошибка авторизации');
+          Cookies.set('token', token);
           this.init(token);
           return token;
         });
     },
     async logout() {
+      Cookies.remove('token');
       this.token = null;
       this.role = null;
       this.user = null;
     },
-    init(token: string | null) {
+    init(token = Cookies.get('token')) {
       if (!token) {
         this.logout();
         return;

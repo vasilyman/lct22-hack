@@ -73,15 +73,13 @@ const password = ref('Ivan080navI');
 const step = ref(0);
 
 const router = useRouter();
-const tokenCookie = useCookie('token');
 
 const onNext = async () => {
   if (email.value && step.value === 0) step.value = 1;
 
   if (email.value && password.value && step.value === 1) {
     await authStore.login({ email: email.value, password: password.value })
-      .then((token) => {
-        tokenCookie.value = token || "";
+      .then(() => {
         router.push('/');
       })
       .catch((e) => {
