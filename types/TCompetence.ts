@@ -4,7 +4,6 @@ import { TThemeColor } from "./TThemeColor";
 const colors: TThemeColor[] = ['success', 'primary', 'white', 'warning', 'danger', 'info'];
 
 export default interface TCompetence {
-  id?: string,
   codeId: string,
   title: string,
   color: TThemeColor,
@@ -17,13 +16,11 @@ export interface TCompetenceUser extends TCompetence {
 }
 
 export class Competence implements TCompetence {
-  id?: string;
   codeId: string;
   title: string;
   color: TThemeColor;
 
   constructor(data?: TCompetence | any) {
-    this.id = data?.id;
     this.codeId = data?.id;
     this.title = data?.title;
     this.color = data?.color || colors[data?.id] || 'white';

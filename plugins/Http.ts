@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { PiniaPluginContext, Pinia } from "pinia";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import Cookies from 'js-cookie';
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -19,11 +18,10 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     params.baseURL = baseUrl;
 
-    const token = Cookies.get('token');
-
-    if (token) {
+    const token = useCookie('token');
+    if (token.value) {
       params.headers = {
-        authorization: `Bearer ${ token }`,
+        authorization: `Bearer ${ token.value }`,
         ...params.headers,
       };
     }
