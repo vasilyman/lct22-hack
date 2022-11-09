@@ -52,6 +52,7 @@ const props = defineProps({
   label: { type: String },
   name: { type: String },
   returnObject: { type: Boolean },
+  clearAfterSelect: { type: Boolean },
 });
 
 interface Emits {
@@ -88,6 +89,7 @@ watch(() => props.modelValue, (val) => {
 });
 
 watch(localValue, (val) => {
+  if (props.clearAfterSelect) return;
   localSearchValue.value = getSelectedObject(val)?.title ?? '';
 });
 
@@ -103,6 +105,7 @@ const onSelect = (val: TListItem) => {
   localValue.value = typeof localValue.value === 'object' ? {...val} : val.value;
   emit('update:modelValue', localValue.value);
   emit('select', localValue.value);
+  if (props.clearAfterSelect) localSearchValue.value = '';
 };
 
 const onFocus = () => {

@@ -9,6 +9,7 @@
         :items="competenceItems"
         v-model:search="searchCompetence"
         placeholder="Выберите компетенцию"
+        clear-after-select
         @select="onSelectCompetence"
       />
       <div class="gap-1 basis-1/2 flex flex-wrap items-start lg:mb-10 mb-5">
@@ -27,6 +28,7 @@
         :items="categoryItems"
         v-model:search="searchTag"
         placeholder="Выберите категорию"
+        clear-after-select
         @select="onSelectTag"
       />
       <div class="gap-1 basis-1/2 flex flex-wrap items-start lg:mb-10 mb-5">
@@ -77,7 +79,6 @@ const searchTag = ref('');
 
 const onSelectTag = (val: string) => {
   const tag = tags.value.find((item) => item.codeId === val);
-  searchTag.value = '';
   if (tag) categoryLocal.value.push(tag);
 };
 
@@ -155,7 +156,6 @@ fetches.push(competenceSync);
 
 const onSelectCompetence = (val: string) => {
   const tag = competencies.value.find((item) => item.codeId === val);
-  searchCompetence.value = '';
   if (tag) competenceLocal.value.push(tag);
 };
 
