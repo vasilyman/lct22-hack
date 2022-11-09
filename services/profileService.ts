@@ -44,6 +44,15 @@ class IdeaService {
     //   signal,
     // });
   }
+
+  update(http: AxiosInstance) {
+    return (id: string, data: TProfile, signal?: AbortSignal): Promise<AxiosResponse<string>> => http({
+      method: 'put',
+      url: `profiles/${id}`,
+      data,
+      signal,
+    });
+  }
 }
 
 export default new IdeaService();

@@ -19,7 +19,7 @@
       :placeholder="props.placeholder"
       :autofocus="autofocus"
       :name="name"
-      @input="onInput"
+      :autocomplete="disableAutocomplete ? 'nope': 'on'"
       @focus="onFocus"
       @blur="onBlur"
     >
@@ -38,6 +38,7 @@ const props = defineProps({
   label: { type: String },
   name: { type: String },
   selectOpened: { type: Boolean },
+  disableAutocomplete: { type: Boolean },
 });
 
 interface Emits {

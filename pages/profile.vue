@@ -72,7 +72,7 @@
           </div>
           <div class="">
             <div class="text-sm text-gray2 mb-2">Город</div>
-            {{ profile.city.title }}
+            {{ profile.city?.title }}
           </div>
           <div class="flex-1"></div>
           <div class="hidden xl:flex items-start gap-3">
@@ -125,27 +125,34 @@ const router = useRouter();
 
 const authStore = useAuthStore();
 
-const id = route.name !== 'me' ? route.params.codeId as string : authStore.user?.id ?? '';
+const isMe = route.name !== 'me';
+
+const id = route.params.codeId as string ?? authStore.user?.id ?? '';
 
 if (!id) {
   router.push('/');
 }
 
-const profile = ref<TProfile>(new Profile());
-
 const fetches = [];
 
-const profileSync = useAsyncData<TProfile>(async () => {
-  const res = await profileStore.fetchProfile(id);
-  return res;
-})
-  .then(({ data }) => {
-    if (!data.value) return;
+const profile = ref(new Profile());
 
-    profile.value = new ProfileDTO(data.value);
-  });
+if (isMe) {
+  profile.value = new ProfileDTO(authStore.profile);
+} else {
+  const profileSync = useAsyncData<TProfile>(async () => {
+    const res = await profileStore.fetchProfile(id);
+    return res;
+  })
+    .then((sync) => {
+      profile.value = new ProfileDTO(sync.data?.value);
+      return sync;
+    });
 
-fetches.push(profileSync);
+  fetches.push(profileSync);
+}
+
+await Promise.allSettled(fetches);
 
 const fullname = computed(() => {
   const nameParts = [profile.value.firstName, profile.value.lastName].filter((item) => !!item);
@@ -165,7 +172,7 @@ const createdAt = computed(() => {
 });
 
 const mainCompetence = computed(() => {
-  return profile.value.competencies?.find((item) => item.is_expert)?.title;
+  return profile.value.getMainCompetence();
 });
 
 const totalIdeas = computed<number>(() => {
@@ -186,8 +193,8 @@ const history: TMediaObject[] = Array(5).fill(
 );
 
 const onEdit = () => {
-  //
-}
+  router.push({ name: 'edit-profile' });
+};
 
 const tokenCookie = useCookie('token');
 const onExit = () => {

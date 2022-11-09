@@ -35,8 +35,8 @@
       @click="onLogin"
     >
       <div class="mr-3 text-right lg:block hidden">
-        <div><strong>Екатерина К.</strong></div>
-        <div class="text-xs">UX/UI дизайнер</div>
+        <div><strong>{{ fullName }}</strong></div>
+        <div class="text-xs">{{ mainCompetence }}</div>
       </div>
       <AtomsAvatar />
     </div>
@@ -50,10 +50,23 @@
 </template>
 <script lang="ts" setup>
 import { useAuthStore } from '@/stores/auth';
+import { Profile } from '@/types/TProfile';
 
 const route = useRoute();
 
 const authStore = useAuthStore();
+
+const profile = computed(() => {
+  return new Profile(authStore.profile);
+});
+
+const mainCompetence = computed(() => {
+  return profile.value.getMainCompetence();
+});
+
+const fullName = computed(() => {
+  return profile.value.getFullName();
+});
 
 const isAuthorized = computed(() => authStore.isAuthorised);
 

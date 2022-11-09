@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     },
     public: {
       apiUrl: '/',
+      version: '',
     },
   },
   css: [

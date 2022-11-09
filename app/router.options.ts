@@ -48,5 +48,13 @@ export default <RouterConfig> {
         middleware: ['anon-deny'],
       },
     },
+    {
+      name: 'edit-profile',
+      path: '/edit-rofile',
+      component: () => import('~/pages/editProfile.vue'),
+      meta: {
+        middleware: ['anon-deny'],
+      },
+    },
   ],
 };

@@ -23,8 +23,8 @@ export class Competence implements TCompetence {
   color: TThemeColor;
 
   constructor(data?: TCompetence | any) {
-    this.id = data?.id;
-    this.codeId = data?.id;
+    this.id = `${data?.id}`;
+    this.codeId = `${data?.id}`;
     this.title = data?.title;
     this.color = data?.color || colors[data?.id] || 'white';
   }

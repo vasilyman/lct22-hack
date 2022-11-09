@@ -3,6 +3,8 @@ import TLogin from '@/types/TLogin';
 import profileService from '@/services/profileService';
 import jwt_decode from "jwt-decode";
 import { TRole } from '~~/types/TRole';
+import TProfile from '~~/types/TProfile';
+import { useProfileStore } from './profile';
 interface TUser {
   id: string,
   sub: string,
@@ -15,6 +17,7 @@ interface TAuthStore {
   token: string | null,
   user: TUser | null,
   role: TRole | null,
+  profile: TProfile | null,
 }
 
 class User implements TUser {
@@ -47,6 +50,7 @@ export const useAuthStore = defineStore('auth', {
     token: null,
     user: null,
     role: null,
+    profile: null,
   }),
   actions: {
     signup() {
@@ -65,8 +69,9 @@ export const useAuthStore = defineStore('auth', {
       this.token = null;
       this.role = null;
       this.user = null;
+      this.profile = null;
     },
-    init(token: string | null) {
+    async init(token: string | null) {
       if (!token) {
         this.logout();
         return;
@@ -78,6 +83,10 @@ export const useAuthStore = defineStore('auth', {
         if (!checkExp(this.user?.exp)) throw new Error('expired token');
         this.role = this.user?.roles[0] ?? null;
         this.token = token;
+        if (!this.profile) {
+          const profileStore = useProfileStore();
+          this.profile = await profileStore.fetchProfile(this.user.id);
+        }
       } catch (error) {
         console.log(error);
         

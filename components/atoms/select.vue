@@ -12,6 +12,8 @@
       :dense="dense"
       :flat="flat"
       :label="props.label"
+      :name="name"
+      disableAutocomplete
       @focus="onFocus"
       @blur="onBlur"
     />
@@ -48,24 +50,46 @@ const props = defineProps({
   dense: { type: Boolean },
   flat: { type: Boolean },
   label: { type: String },
+  name: { type: String },
   returnObject: { type: Boolean },
 });
 
 interface Emits {
-  (e: 'update:modelValue' | 'update:search' | 'select', value: string | TListItem): void,
+  (e: 'update:modelValue' | 'select', value: string | TListItem): void,
+  (e: 'update:search', value: string): void,
   (e: 'focus' | 'blur'): void,
 }
 const emit = defineEmits<Emits>();
 
-const localValue = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(val) {
-    emit('update:modelValue', val);
-    emit('select', val);
-  }
-})
+const localValue = ref<TListItem | string>(typeof props.modelValue === 'object' ? {...props.modelValue} : props.modelValue);
+
+const getSelectedObject = (val: string | TListItem) => {
+  return typeof val === 'object'
+    ? {...val}
+    : props.items.find((item) => item.value === val);
+};
+
+const selectedObject = computed<TListItem | undefined>(() => {
+  return getSelectedObject(localValue.value);
+});
+
+const localSearchValue = ref(selectedObject.value?.title ?? '');
+
+watch(() => props.search, (val) => {
+  localSearchValue.value = val;
+});
+
+watch(localSearchValue, (val) => {
+  emit('update:search', val ?? '');
+});
+
+watch(() => props.modelValue, (val) => {
+  localValue.value = val;
+});
+
+watch(localValue, (val) => {
+  localSearchValue.value = getSelectedObject(val)?.title ?? '';
+});
 
 const isShowedOptions = ref(false);
 
@@ -73,18 +97,12 @@ const itemsLocal = computed(() => {
   return props.items.length === 0 ? [{ title: props.noDataText, value: '', disabled: true }] : props.items;
 });
 
-const localSearchValue = computed({
-  get() {
-    return props.search;
-  },
-  set(val) {
-    emit('update:search', val);
-  },
-});
 
 const onSelect = (val: TListItem) => {
   if (val.disabled) return;
-  localValue.value = val.value;
+  localValue.value = typeof localValue.value === 'object' ? {...val} : val.value;
+  emit('update:modelValue', localValue.value);
+  emit('select', localValue.value);
 };
 
 const onFocus = () => {

@@ -3,8 +3,8 @@
     <div class="py-3 lg:py-10 app__container">
       <Header v-model:dark="dark" />
     </div>
-    <NuxtPage class="app__container" />
-    <!-- <Footer /> -->
+    <NuxtPage class="app__container flex-1" />
+    <Footer />
     <div class="layout__modals" />
   </div>
 </template>

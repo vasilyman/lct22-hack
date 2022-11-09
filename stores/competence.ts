@@ -3,14 +3,12 @@ import TCompetence, { Competence } from '@/types/TCompetence';
 import competenceService from '@/services/competenceService';
 
 interface TCompetenceStore {
-  competence: TCompetence | null,
-  competenceList: TCompetence[],
+  competencies: TCompetence[],
 }
 
 export const useCompetenceStore = defineStore('competence', {
   state: (): TCompetenceStore => ({
-    competence: null,
-    competenceList: [],
+    competencies: [],
   }),
   actions: {
     fetchItem(codeId: string, signal?: AbortSignal) {
@@ -21,7 +19,8 @@ export const useCompetenceStore = defineStore('competence', {
     },
     fetchList(query: {}, signal?: AbortSignal): Promise<TCompetence[]> {
       return competenceService.getList(this.$http)(query, signal)
-        .then((res) => { 
+        .then((res) => {
+          this.competencies = res.data;
           return res.data.map((item) => new Competence(item));
         });
     },

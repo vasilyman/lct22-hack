@@ -120,12 +120,12 @@ const competenceLocal = computed<TCompetence[]>({
   get() {
     return props.competencies;
   },
-  set(val: TTag[]) {
+  set(val: TCompetence[]) {
     emit('update:competencies', val);
   },
 });
 
-const competencies = ref<TTag[]>([]);
+const competencies = ref<TCompetence[]>([]);
 const searchCompetence = ref('');
 
 const competenceItems = computed<TListItem[]>(() => {
