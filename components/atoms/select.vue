@@ -76,21 +76,22 @@ const selectedObject = computed<TListItem | undefined>(() => {
 
 const localSearchValue = ref(selectedObject.value?.title ?? '');
 
+watch(selectedObject, (val) => {
+  if (props.clearAfterSelect) return;
+  
+  localSearchValue.value = val?.title ?? '';
+})
+
 watch(() => props.search, (val) => {
   localSearchValue.value = val;
 });
 
-watch(localSearchValue, (val) => {
-  emit('update:search', val ?? '');
+watch(localSearchValue, (val = '') => {
+  emit('update:search', val);
 });
 
 watch(() => props.modelValue, (val) => {
   localValue.value = val;
-});
-
-watch(localValue, (val) => {
-  if (props.clearAfterSelect) return;
-  localSearchValue.value = getSelectedObject(val)?.title ?? '';
 });
 
 const isShowedOptions = ref(false);
@@ -105,7 +106,6 @@ const onSelect = (val: TListItem) => {
   localValue.value = typeof localValue.value === 'object' ? {...val} : val.value;
   emit('update:modelValue', localValue.value);
   emit('select', localValue.value);
-  if (props.clearAfterSelect) localSearchValue.value = '';
 };
 
 const onFocus = () => {

@@ -32,8 +32,9 @@
         <AtomsSelect
           label="Навыки / компетенции"
           class="mb-3"
-          v-model:search="searchCompetence"
+          name="competencies"
           :items="competencies"
+          clear-after-select
           @select="onSelectCompetence"
         />
         {{ selectedCompetencies }}
