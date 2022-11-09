@@ -37,7 +37,20 @@
           clear-after-select
           @select="onSelectCompetence"
         />
-        {{ selectedCompetencies }}
+        <AtomsSortableList
+          :items="selectedCompetencies"
+          @delete="onDeleteCompetence"
+        >
+          <template #default="{ item }">
+            <div class="flex">
+              <AtomsCheckbox
+                :model-value="profileForm.competencies.find((c) => c.codeId === item.value)?.is_expert"
+                class="mx-2"
+              />
+              <div>{{ item.title }}</div>
+            </div>
+          </template>
+        </AtomsSortableList>
       </div>
       <div class="flex justify-end gap-3">
         <AtomsButton
@@ -60,10 +73,11 @@
 import TProfile, { Profile } from '@/types/TProfile';
 import { useAuthStore } from '@/stores/auth';
 import { useProfileStore } from '~~/stores/profile';
-import TCompetence, { Competence, TCompetenceUser } from '~~/types/TCompetence';
+import TCompetence, { Competence, TCompetenceUser, CompetenceUser } from '~~/types/TCompetence';
 import { useCompetenceStore } from '~~/stores/competence';
 import { useCityStore } from '@/stores/city';
 import { City, TCity } from '~~/types/TCity';
+import { ListItemOrdered, TListItemOrdered } from '~~/types/TListItem';
 
 const profileForm = ref<TProfile>(new Profile());
 
@@ -124,26 +138,46 @@ const selCity = computed({
   },
 });
 
-const searchCompetence = ref('');
+const selectedCompetencies = ref<TListItemOrdered[]>(profile.value.competencies
+  .sort((a, b) => a.ordered - b.ordered)
+  .map((item) => new ListItemOrdered(item)));
 
-const selectedCompetencies = ref<TCompetenceUser[]>(profileForm.value.competencies.sort((a, b) => a.ordered - b.ordered));
-
-watch(() => profileForm.value.competencies, (val) => {
-  selectedCompetencies.value = val;
+watch(() => profile.value.competencies, (val) => {
+  selectedCompetencies.value = val.map((item) => new ListItemOrdered(item));
 });
 
+watch(selectedCompetencies, (val) => {
+  let newCompetencies: TCompetenceUser[] = [];
+  val.forEach((item) => {
+    const compRelevant = storeCompetencies.value.find((comp) => comp.codeId === item.value) || {};
+    const userCompRelevant = profileForm.value.competencies.find((comp) => comp.codeId === item.value) || {};
+    const competence = new CompetenceUser({
+      ...compRelevant,
+      ...userCompRelevant,
+      ordered: item.ordered,
+    });
+    newCompetencies.push(competence);
+  });
+  profileForm.value.competencies = newCompetencies;
+}, { deep: true })
+
 const onSelectCompetence = (val: string) => {
+  if (profileForm.value.competencies.findIndex((item) => item.codeId === val) !== -1) return;
   const competence = storeCompetencies.value.find((item) => item.codeId === val);
   if (competence) {
     const maxOrder = profileForm.value.competencies.sort((a, b) => b.ordered - a.ordered)[0].ordered;
     const order = maxOrder + 1;
     selectedCompetencies.value.push({
-      ...competence,
+      value: competence.codeId,
       ordered: order,
-      is_expert: false,
-      tested_At: '',
+      title: competence.title,
     });
   }
+};
+
+const onDeleteCompetence = (item: TListItemOrdered) => {
+  const i = selectedCompetencies.value.findIndex((competence) => competence.value === item.value);
+  if (i !== -1) selectedCompetencies.value.splice(i, 1);
 };
 
 const router = useRouter();
