@@ -4,6 +4,7 @@
       ref="chart"
       width="400"
       height="100"
+      class=""
     />
   </div>
 </template>
@@ -97,7 +98,25 @@ const data: ChartData<'line' | 'bubble'> = {
   ]
 };
 
+const screenWidth = ref(0);
+
+const animId  = ref(0);
+
+const getWidth = () => {
+  screenWidth.value = window.innerWidth;
+};
+
+const start = () => {
+  getWidth();
+  animId.value = requestAnimationFrame(start)
+};
+
+const stop = () => {
+  cancelAnimationFrame(animId.value);
+};
+
 const options: ChartOptions<'line'> = {
+  responsive: true,
   scales: {
     x: {
       type: 'time',
@@ -144,11 +163,34 @@ const config: ChartConfiguration = {
   options
 };
 
+let mixedChart: Chart;
+
+const updateConfigAsNewObject = (chart: Chart) => {
+    chart.options = {
+      ...options,
+      aspectRatio: screenWidth.value > 700 ? 3 : 1.5,
+    };
+    chart.update();
+};
+
+watch(screenWidth, () => {
+  if (mixedChart instanceof Chart) {
+    console.log('draw');
+    updateConfigAsNewObject(mixedChart);
+  }
+});
+
 onMounted(() => {
+  start();
   nextTick(() => {
-    const ctx = chart.value as HTMLCanvasElement;
-    const mixedChart = new Chart(ctx, config);
-  })
-  
+    mixedChart = new Chart(chart.value as HTMLCanvasElement, config);
+    updateConfigAsNewObject(mixedChart);
+  });
+});
+
+onUnmounted(() => {
+  stop();
 });
 </script>
+<style lang="postcss">
+</style>
