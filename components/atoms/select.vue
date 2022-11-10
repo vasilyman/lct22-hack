@@ -18,12 +18,12 @@
       @blur="onBlur"
     />
     <transition name="slidefade">
-      <div
+      <ul
         v-if="isShowedOptions"
         class="shadow-md border text-gray3 border-gray rounded-b-md py-2 absolute top-100 left-0 w-full bg-white z-10"
         @click.stop
       >
-        <option
+        <li
           v-for="item in itemsLocal"
           :key="item.value"
           class="py-2 px-4 hover:bg-gray cursor-pointer"
@@ -31,8 +31,8 @@
           @click="onSelect(item)"
         >
           {{ item.title }}
-        </option>
-      </div>
+        </li>
+      </ul>
     </transition>
   </div>
 </template>
