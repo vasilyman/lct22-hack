@@ -62,6 +62,23 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  .loading {
+    background-image: linear-gradient(to right, #c1c1c1 40%, transparent 40%)!important;
+    background-position: 100% 100%;
+    background-repeat: repeat-x!important;
+    background-size: 150%;
+    animation: input-is-loading 1s linear infinite;
+
+    @keyframes input-is-loading {
+      0% {
+        background-position: 0% 100%;
+      }
+      100% {
+        background-position: -300% 100%;
+      }
+    }
+  }
 }
 
 @layer components {

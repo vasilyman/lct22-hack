@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { PiniaPluginContext, Pinia } from "pinia";
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosProgressEvent, AxiosRequestConfig, AxiosResponse } from "axios";
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -10,13 +10,17 @@ export default defineNuxtPlugin((nuxtApp) => {
   
   const $pinia: Pinia = nuxtApp.$pinia as Pinia;
 
-  const baseUrl = isDev ? 'http://localhost:8888/api/v1/' : config.public.apiUrl;
+  const baseURL = isDev ? 'http://localhost:8888/api/v1/' : config.public.apiUrl;
 
-  const http = axios.create();
+  const http = axios.create({
+    baseURL,
+  });
+
+  const isLoading = ref(false);
 
   const $http = <T>(params: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
 
-    params.baseURL = baseUrl;
+    params.baseURL = baseURL;
 
     const token = useCookie('token');
     if (token.value) {
@@ -26,7 +30,12 @@ export default defineNuxtPlugin((nuxtApp) => {
       };
     }
 
-    return http.request(params);
+    isLoading.value = true;
+
+    return http.request(params)
+      .finally(() => {
+        isLoading.value = false;
+      });
   };
 
   $pinia.use(({ store }: PiniaPluginContext) => {
@@ -36,6 +45,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   return {
     provide: {
       http,
+      isLoading,
     },
   };
 });

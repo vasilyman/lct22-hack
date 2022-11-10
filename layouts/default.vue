@@ -3,6 +3,7 @@
     <div class="py-3 lg:py-10 app__container">
       <Header v-model:dark="dark" />
     </div>
+    <AtomsLoadingIndicator :progress="progress" />
     <NuxtPage class="app__container flex-1" />
     <Footer />
     <div class="layout__modals" />
@@ -37,6 +38,12 @@ watch(dark, (val) => {
       class: val ? 'dark' : '',
     },
   });
+});
+
+const { $isLoading } = useNuxtApp();
+
+const progress = computed(() => {
+  return $isLoading.value ? 1 : 0;
 });
 </script>
 <style lang="postcss">
