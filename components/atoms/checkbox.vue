@@ -1,15 +1,20 @@
 <template>
-  <div>
+  <div class="checkbox">
     <input
       type="checkbox"
       v-model="localValue"
-      class=""
+      class="checkbox__input"
+      :class="{
+        'checkbox__input-disabled': props.disabled,
+      }"
+      :disabled="props.disabled"
     >
   </div>
 </template>
 <script lang="ts" setup>
 const props = defineProps({
   modelValue: { type: Boolean },
+  disabled: { type: Boolean },
 });
 
 interface Emits {
@@ -27,9 +32,4 @@ const localValue = computed({
 });
 </script>
 <style lang="postcss">
-.checkbox {
-  &__input {
-    @apply appearance-none border border-gray2 h-5 w-5 checked:checedk;
-  }
-}
 </style>

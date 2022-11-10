@@ -42,10 +42,11 @@
           @delete="onDeleteCompetence"
         >
           <template #default="{ item }">
-            <div class="flex">
+            <div class="flex items-center">
               <AtomsCheckbox
                 :model-value="profileForm.competencies.find((c) => c.codeId === item.value)?.is_expert"
                 class="mx-2"
+                disabled
               />
               <div>{{ item.title }}</div>
             </div>

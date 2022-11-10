@@ -26,7 +26,7 @@
             @click="onDelete(item)"
           >
             <slot name="append">
-              <div class="p-2">
+              <div class="p-2 hover:text-danger transition-all duration-200">
                 <i class="fas fa-close"></i>
               </div>
             </slot>
