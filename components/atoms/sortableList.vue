@@ -17,9 +17,7 @@
             </slot>
           </div>
           <div class="flex-1 flex items-center">
-            <div>
-              <slot :item="item">{{ item.title }}</slot>
-            </div>
+            <slot :item="item">{{ item.title }}</slot>
           </div>
           <div
             class="flex items-center select-none cursor-pointer"

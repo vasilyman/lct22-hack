@@ -42,13 +42,21 @@
           @delete="onDeleteCompetence"
         >
           <template #default="{ item }">
-            <div class="flex items-center">
-              <AtomsCheckbox
-                :model-value="profileForm.competencies.find((c) => c.codeId === item.value)?.is_expert"
-                class="mx-2"
-                disabled
-              />
-              <div>{{ item.title }}</div>
+            <div class="flex items-center w-full">
+              <div class="flex-grow">{{ item.title }}</div>
+              <div class="mx-3">
+                <div
+                  v-if="profileForm.competencies.find((c) => c.codeId === item.value)?.is_expert"
+                  class="text-sm text-gray2"
+                >
+                  Эксперт
+                </div>
+                <div v-else>
+                  <AtomsButton small>
+                    Стать экспертом
+                  </AtomsButton>
+                </div>
+              </div>
             </div>
           </template>
         </AtomsSortableList>
