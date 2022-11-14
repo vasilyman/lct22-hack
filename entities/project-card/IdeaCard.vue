@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white dark:bg-grayDarkContent dark:bg-none rounded-lg shadow-sm p-4">
+  <div>
     <div class="mb-3 flex justify-between">
       <div class="">
         <nuxt-link :to="ideaLink">
@@ -63,6 +63,10 @@ import TIdeaCard, { IdeaCard } from '@/types/TIdeaCard';
 import { PropType } from 'vue';
 import { useAuthStore } from '~~/stores/auth';
 import ellipsis from '~~/utils/ellipsis';
+
+const slots = useSlots();
+
+const showRightSlot = 'right' in slots;
 
 const { $dayjs } = useNuxtApp();
 

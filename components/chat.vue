@@ -10,10 +10,15 @@
       :media="media"
       class="mb-8"
     >
-      <AtomsChatMessage
-        :model-value="response"
-        placeholder="Написать сообщение"
-      />
+      <template #default>
+        <AtomsChatMessage
+          :model-value="response"
+          placeholder="Написать сообщение"
+        />
+      </template>
+      <template #after-title>
+        <AtomsIcon name="expert" class="ml-2" title="Эксперт" />
+      </template>
     </AtomsMediaObject>
   </div>
 </template>

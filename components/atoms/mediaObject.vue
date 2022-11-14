@@ -10,7 +10,10 @@
     </div>
     <div class="">
       <div class="flex items-baseline mb-2">
-        <div class="mr-5"><strong>{{ media.title || media.author.name }}</strong></div>
+        <div class="mr-5">
+          <strong>{{ media.title || media.author.name }}</strong>
+          <slot name="after-title"></slot>
+        </div>
         <div
           v-if="media.createdAt"
           class="text-xs text-gray2"
@@ -41,7 +44,7 @@ let createdAt: string;
 let created: string;
 
 try {
-  created = $dayjs(props.media.createdAt).toNow();
+  created = $dayjs(props.media.createdAt).fromNow();
   createdAt = $dayjs(props.media.createdAt).format('DD MMM YYYY HH:MM:SS');
 } catch (error) {
   console.log(error);

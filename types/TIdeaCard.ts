@@ -7,6 +7,13 @@ import { TagProject, TTagProject } from "./TTag";
 import { TThemeColor } from "./TThemeColor";
 import { TUser, TUserProjectMember, User, UserProjectMember } from "./TUser";
 
+export interface TProjectStatus {
+  codeId: string,
+  title: string,
+  createdAt: string,
+  progress: number,
+}
+
 export default interface TIdeaCard {
   codeId: string,
   title: string,
@@ -22,6 +29,8 @@ export default interface TIdeaCard {
   imageUrl?: string,
   innovations?: Object[],
   competencies?: TCompetence[],
+  status?: TProjectStatus,
+  rating?: number,
 }
 
 export class IdeaCard implements TIdeaCard {
@@ -39,6 +48,8 @@ export class IdeaCard implements TIdeaCard {
   imageUrl?: string;
   innovations?: Object[];
   competencies?: TCompetence[];
+  status?: TProjectStatus;
+  rating?: number;
 
   constructor(data?: TIdeaCard | any) {
     this.codeId = data?.codeId;
@@ -60,6 +71,8 @@ export class IdeaCard implements TIdeaCard {
     this.innovations = data?.innovations ?? [];
     this.imageUrl = data?.imageUrl ?? 'https://placeimg.com/180/180/arch';
     this.competencies = data?.competencies?.map((item: TCompetence) => new Competence(item)) ?? [];
+    this.status = data?.status;
+    this.rating = data?.rating;
   }
 }
 

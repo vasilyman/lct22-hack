@@ -3,7 +3,7 @@
 import { PiniaPluginContext, Pinia } from "pinia";
 import axios, { AxiosProgressEvent, AxiosRequestConfig, AxiosResponse } from "axios";
 
-const isDev = process.env.NODE_ENV !== 'production';
+const isDev = 0 && process.env.NODE_ENV !== 'production';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig();

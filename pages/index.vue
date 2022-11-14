@@ -2,15 +2,18 @@
   <div>
     <div class="bg-white dark:bg-grayDarkContent dark:bg-none py-6 px-7 rounded-lg shadow-lg">
       <div class="flex justify-between items-center mb-6">
-        <div class="flex items-center mr-3">
-          <h3 class="font-bold mr-2">Это может быть интересно</h3>
-          <i class="far fa-circle-question text-xs text-gray2"></i>
+        <div class="mr-3">
+          <span class="font-bold mr-2">Набирающие популярность</span>
+          <i
+            class="far fa-circle-question text-xs text-gray2"
+            title="Самый высокий рост за неделю"
+          ></i>
         </div>
         <div
           class="text-gray2 text-sm text-right"
           @click="onAll"
         >
-          Посмотреть все
+          <span class="">Рейтинг</span>
         </div>
       </div>
       <Slider
@@ -32,10 +35,12 @@
       />
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-      <IdeaCard
+      <div
         v-for="card in cadrs" :key="card.codeId"
-        :idea="card"
-      />
+        class="bg-white dark:bg-grayDarkContent rounded-lg shadow-sm p-4"
+      >
+        <ProjectCard :idea="card" />
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +48,7 @@
 import TSlideItem, { SlideItem } from '@/types/TSlideItem';
 import TIdeaCard, { IdeaCardDTO } from '@/types/TIdeaCard';
 import { useIdeaStore } from '@/stores/idea';
+import { ProjectCard } from '@/entities/project-card';
 
 const onAll = () => {
   console.log('all');

@@ -88,11 +88,11 @@ const data: ChartData<'line' | 'bubble'> = {
       backgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgb(255, 99, 132)',
       data: [
-        { x: Date.parse('2022-06-01'), y: 50 },
-        { x: Date.parse('2022-07-21'), y: 20 },
-        { x: Date.parse('2022-08-01'), y: 50 },
-        { x: Date.parse('2022-09-10'), y: 15 },
-        { x: Date.parse('2022-10-11'), y: 18 }
+        { x: Date.parse('2022-06-01'), y: 10 },
+        { x: Date.parse('2022-07-21'), y: 112 },
+        { x: Date.parse('2022-08-01'), y: 170 },
+        { x: Date.parse('2022-09-10'), y: 210 },
+        { x: Date.parse('2022-10-11'), y: 225 }
       ],
     },
   ]

@@ -36,4 +36,11 @@ export default defineNuxtConfig({
   experimental: {
     writeEarlyHints: false,
   },
+  components: {
+    "dirs": [
+      '~/components',
+      // '~/entities',
+      // '~/features',
+    ],
+  },
 });

@@ -53,7 +53,17 @@
         </div>
       </div>
       <div class="profile__container lg:rounded-bl-xl flex-grow">
-        Вы приняли участие в проекте
+        <div class="flex justify-between items-center mb-3">
+          <div>
+            <span class="font-bold mr-2">Заявки</span>
+            <i class="far fa-circle-question text-xs text-gray2"></i>
+          </div>
+          <AtomsButtonGroup
+            :items="inviteTypes"
+            v-model="inviteType"
+            class=""
+          />
+        </div>
       </div>
     </div>
     <div class="col-span-3 lg:col-span-2 flex flex-col gap-3">
@@ -97,11 +107,40 @@
             :key="tag.codeId"
             :color="tag.color"
           >
-            {{ tag.title }}
+            <span class="mr-2">{{ tag.title }}</span>
+            <AtomsIcon name="expert" title="Эксперт"/>
           </AtomsChip>
         </div>
       </div>
+      <div class="profile__container flex-grow">
+        <div class="flex justify-between items-center mb-5">
+          <div>
+            <span class="font-bold mr-2">Мои проекты</span>
+            <i class="far fa-circle-question text-xs text-gray2"></i>
+          </div>
+          <AtomsButtonGroup
+            :items="projectsTypes"
+            v-model="projectsType"
+            class=""
+          />
+        </div>
+        <div
+          v-for="(item, i) in projectsOfUser"
+          :key="i"
+          class=""
+        >
+          <ProjectWithStatus
+            :project="item"
+            @open="onOpenProject(item)"
+          />
+          <AtomsLine v-if="i < projectsOfUser.length - 1" class="my-3" />
+        </div>
+      </div>
       <div class="profile__container max-lg:rounded-b-xl lg:rounded-br-xl flex-grow">
+        <div class="flex items-center mb-4">
+          <h3 class="font-bold mr-2">Моя активность</h3>
+          <i class="far fa-circle-question text-xs text-gray2"></i>
+        </div>
         <History
           :history="history"
         />
@@ -114,6 +153,10 @@ import { useProfileStore } from '@/stores/profile';
 import TMediaObject from '@/types/TMediaObject';
 import { useAuthStore } from '@/stores/auth';
 import TProfile, { Profile, ProfileDTO } from '~~/types/TProfile';
+import { ProjectWithStatus } from '~~/widgets/project-with-status';
+import TIdeaCard from '~~/types/TIdeaCard';
+import { User } from '~~/types/TUser';
+import TSelectItem from '~~/types/TSelectItem';
 
 const { $dayjs } = useNuxtApp();
 
@@ -201,5 +244,72 @@ const onExit = () => {
   tokenCookie.value = '';
   authStore.logout();
   router.push('/');
+}
+
+const projectsOfUser: TIdeaCard[] = [
+  {
+    codeId: '1',
+    title: 'Контроль очистных сооружений с помощью машинного зрения',
+    description: 'Firct project description',
+    author: new User({ id: '1' }),
+    comments: 0,
+    likes: 2,
+    hasGrant: false,
+    createdAt: '2022-04-09',
+    status: {
+      codeId: 'one',
+      title: 'Формирование команды',
+      createdAt: '2022-11-10',
+      progress: .75,
+    },
+    rating: 1204,
+  },
+  {
+    codeId: '2',
+    title: 'Производство арматуры для легкой промышленности из углеродного волокна',
+    description: 'Firct project description',
+    author: new User({ id: '1' }),
+    comments: 0,
+    likes: 2,
+    hasGrant: false,
+    createdAt: '2022-04-09',
+    status: {
+      codeId: 'two',
+      title: 'Проект создан',
+      createdAt: '2022-11-10',
+      progress: .3,
+    },
+    rating: 456,
+  },
+];
+
+const projectsTypes: TSelectItem[] = [
+  {
+    value: 'my',
+    title: 'Мои'
+  },
+  {
+    value: 'other',
+    title: 'Другие',
+  },
+];
+
+const projectsType = ref('my');
+
+const inviteTypes: TSelectItem[] = [
+  {
+    value: 'in',
+    title: 'Вход.'
+  },
+  {
+    value: 'out',
+    title: 'Исх.',
+  },
+];
+
+const inviteType = ref('in');
+
+const onOpenProject = (project: TIdeaCard) => {
+  router.push({ name: 'project-codeId', params: { codeId: project.codeId } });
 }
 </script>
