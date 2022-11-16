@@ -9,12 +9,14 @@
       }"
       :disabled="props.disabled"
     >
+    <label class="checkbox__label" for="">{{ props.label }}</label>
   </div>
 </template>
 <script lang="ts" setup>
 const props = defineProps({
   modelValue: { type: Boolean },
   disabled: { type: Boolean },
+  label: { type: String },
 });
 
 interface Emits {

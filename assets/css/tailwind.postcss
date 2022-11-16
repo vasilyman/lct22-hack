@@ -124,10 +124,10 @@
   }
 
   .checkbox {
-    @apply h-5 w-5;
+    @apply flex;
 
     &__input {
-      @apply appearance-none border-2 border-gray2 h-full w-full checked:checkbox__input-checked relative cursor-pointer;
+      @apply appearance-none border-2 border-gray2 h-5 w-5 checked:checkbox__input-checked relative cursor-pointer;
 
       &:after {
         @apply border-b-2 border-l-2 border-primary absolute transition-all duration-100;
@@ -140,6 +140,10 @@
         transform: translate(-50%, -70%) scale(0) rotateZ(-45deg);
         opacity: 0;
       }
+    }
+
+    &__label {
+      @apply text-sm text-gray2 ml-2;
     }
 
     &__input-checked {
