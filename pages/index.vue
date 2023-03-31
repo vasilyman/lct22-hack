@@ -58,10 +58,7 @@ const onAll = () => {
 const cadrs = ref<TIdeaCard[]>([]);
 const items = ref<TSlideItem[]>([]);
 
-const { data: cardsSync } = await ideaService.getList().then((e) => {
-  console.log(e)
-  return e;
-});
+const { data: cardsSync } = await ideaService.getList();
 
 console.log(cardsSync.value);
 

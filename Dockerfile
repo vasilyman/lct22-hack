@@ -8,6 +8,8 @@ COPY . .
 # установка зависимостей
 RUN npm ci
 
+ENV NUXT_PUBLIC_VERSION=${CI_COMMIT_SHA}
+
 #сборка
 RUN npm run build
 

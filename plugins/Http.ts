@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { PiniaPluginContext, Pinia } from "pinia";
-import axios, { AxiosProgressEvent, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 const isDev = 0 && process.env.NODE_ENV !== 'production';
 

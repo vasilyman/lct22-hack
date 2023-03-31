@@ -7,7 +7,7 @@ export const useApiData = <DataT>(url: string, opts: UseFetchOptions<DataT> = {}
 
   const config = useRuntimeConfig();
 
-  const baseURL = isDev ? 'https://collabro.ru/api/v1/': config.public.apiUrl;
+  const baseURL = config.public.apiUrl;
 
   const options: UseFetchOptions<DataT> = {
     ...opts,
