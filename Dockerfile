@@ -8,14 +8,6 @@ COPY . .
 # установка зависимостей
 RUN npm ci
 
-# build env
-ENV NUXT_PUBLIC_API_URL=https://collabro.remonstro.ru/api/v1
-
-#runtime env
-ENV HOST=0.0.0.0
-ENV PORT=3000
-ENV NUXT_APP_BASE_URL=/
-
 #сборка
 RUN npm run build
 

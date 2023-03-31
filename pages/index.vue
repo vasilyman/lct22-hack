@@ -49,20 +49,25 @@ import TSlideItem, { SlideItem } from '@/types/TSlideItem';
 import TIdeaCard, { IdeaCardDTO } from '@/types/TIdeaCard';
 import { useIdeaStore } from '@/stores/idea';
 import { ProjectCard } from '@/entities/project-card';
+import ideaService from '~~/services/ideaService';
 
 const onAll = () => {
   console.log('all');
 };
 
-const ideaStore = useIdeaStore();
-
 const cadrs = ref<TIdeaCard[]>([]);
 const items = ref<TSlideItem[]>([]);
 
-const cardsSync = await useAsyncData<TIdeaCard[]>(() => ideaStore.fetchIdeaList({}));
+const { data: cardsSync } = await ideaService.getList().then((e) => {
+  console.log(e)
+  return e;
+});
 
-if (cardsSync.data.value) {
-  const ideas = cardsSync.data.value.map((item) => new IdeaCardDTO(item));
+console.log(cardsSync.value);
+
+
+if (cardsSync.value) {
+  const ideas = cardsSync.value.map((item) => new IdeaCardDTO(item));
   cadrs.value = ideas;
   items.value = ideas.map((item) => new SlideItem({
     id: item.codeId,

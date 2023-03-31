@@ -4,6 +4,7 @@ export default defineNuxtConfig({
     pageTransition: {
       name: 'slidefade'
     },
+    layoutTransition: false,
     head: {
       charset: 'utf-8',
       viewport: 'user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1', 
@@ -20,7 +21,7 @@ export default defineNuxtConfig({
       baseURL: '/',
     },
     public: {
-      apiUrl: '/',
+      apiUrl: process.env.NUXT_PUBLIC_API_URL,
       version: '',
     },
   },
@@ -42,5 +43,8 @@ export default defineNuxtConfig({
       // '~/entities',
       // '~/features',
     ],
+  },
+  typescript: {
+    strict: true,
   },
 });

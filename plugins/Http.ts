@@ -10,7 +10,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   
   const $pinia: Pinia = nuxtApp.$pinia as Pinia;
 
-  const baseURL = isDev ? 'http://localhost:8888/api/v1/' : config.public.apiUrl;
+  const baseURL = config.public.apiUrl;
 
   const http = axios.create({
     baseURL,
